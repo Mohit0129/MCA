@@ -1,0 +1,38 @@
+db.Orders.insert(
+ { _id:1,
+   Cust_id:"Aishwarya",  
+   Ord_date: new Date("2021-06-23"),
+   Price:50,
+   Items:[{ sku:"pen",qty:10,price:2.00},
+          { sku:"pencil",qty:6,price:10.00},
+          { sku:"eraser",qty:12,price:3.00}],
+   Status:"A"
+  }
+  )
+db.Orders.insert(
+ { _id:4,
+   Cust_id:"Aishwarya",  
+   Ord_date: new Date("2021-04-25"),
+   Price:50,
+   Items:[{ sku:"pen",qty:2,price:2.00},
+          { sku:"sharpner",qty:15,price:10.00},
+	  { sku:"scale",qty:15,price:10.00}],
+   Status:"A"})
+   
+db.Orders.insert(
+ { _id:2,
+   Cust_id:"Abhishek",  
+   Ord_date: new Date("2021-04-25"),
+   Price:50,
+   Items:[{ sku:"compass",qty:8,price:2.00},
+          { sku:"scale",qty:5,price:10.00},
+	  { sku:"pen",qty:4,price:5.00}],
+   Status:"A"})
+db.Orders.insert(
+ { _id:3,
+   Cust_id:"Abhishek",  
+   Ord_date: new Date("2021-04-25"),
+   Price:50,
+   Items:[{ sku:"pen",qty:2,price:2.00},
+          { sku:"pencil",qty:15,price:10.00}],
+   Status:"A"})

@@ -1,0 +1,7 @@
+customers = LOAD 'hdfs://localhost:9000/CustLT/custlifetime.txt' USING PigStorage(' ') as ( name:chararray, lifetimevalue:int );
+
+SPLIT customers into Silver_Program if (lifetimevalue>10000 and lifetimevalue<=20000), Gold_Program if (lifetimevalue>20000);
+
+dump Silver_Program;
+
+dump Gold_Program;

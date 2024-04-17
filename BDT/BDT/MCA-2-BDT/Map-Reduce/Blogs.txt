@@ -1,0 +1,11 @@
+Find Out total number of posts by each user whose status is active.
+use Blogs
+
+db.createCollection("Blogs")
+db.Blogs.insertMany([
+{_id:1,userId:"u101",post_text:"Python MapReduce", status:"Active"},
+{_id:2,userId:"u101",post_text:"Python Socket", status:"Active"},
+{_id:3,userId:"u102",post_text:"Java Script", status:"Active"},
+{_id:4,userId:"u102",post_text:"Css&bootstrap", status:"Active"},
+{_id:5,userId:"u101",post_text:"Python ADT", status:"Passive"},
+])

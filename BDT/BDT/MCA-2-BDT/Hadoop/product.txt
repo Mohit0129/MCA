@@ -1,0 +1,6 @@
+P001,Scale,50,11.20,cello
+P002,Pencil,10,5.20,apsara
+P003,Eraser,500,3.10,doms
+P004,Sharpner,100,2.20,camel
+P005,Scale,20,4.12,doms
+

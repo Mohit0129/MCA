@@ -1,0 +1,66 @@
+CTRL+L   <--clear screen
+
+> db.version()
+4.4.6
+> db.stats()
+{
+        "db" : "myDB",
+        "collections" : 19,
+        "views" : 0,
+        "objects" : 79,
+        "avgObjSize" : 141.21518987341773,
+        "dataSize" : 11156,
+        "storageSize" : 471040,
+        "indexes" : 19,
+        "indexSize" : 438272,
+        "totalSize" : 909312,
+        "scaleFactor" : 1,
+        "fsUsedSize" : 90751414272,
+        "fsTotalSize" : 157286395904,
+        "ok" : 1
+}
+use mydb
+>db.createCollection("emp")
+>db.emp.insertOne({First_Name: "Jigna",Last_Name: "Baxi",Date_Of_Birth: "1981-09-26",e_mail: "jinal.123@gmail.com",phone: "1234567"	})
+>db.emp.insertOne({First_Name: "Jigar",Last_Name: "Patel",Date_Of_Birth: "1981-09-26",e_mail: "jinal.123@gmail.com",phone: "1234567"})
+
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6249a88336358e7c17a468ff")
+}
+>db.emp.find()
+-------------------Teacher--------
+Create a new MongoDB database called “TEACHER”
+> db.version()
+4.4.6
+> db myDB
+> use MCA-2
+switched to db MCA-2
+> db
+MCA-2
+> show collections
+> db.createCollection("Teacher")
+{ "ok" : 1 }
+
+> db.createCollection("Teacher")
+{
+        "ok" : 0,
+        "errmsg" : "Collection already exists. NS: MCA-2.Teacher",
+        "code" : 48,
+        "codeName" : "NamespaceExists"
+}
+>
+-----------------------------------------------------
+FOR INSERTING
+Assume an appropriate Schema consisting of fields like Name, Age, Subject(array),DOB, Gender, Salary, City
+-----------------------------------------------------
+
+db.Teacher.insert({_id:1,name:"Jinal",age:38,subject:["BDT","DS"],DOB:"1995-09-26",gender:"Female",salary:49000,city:"a'bad"})
+db.Teacher.insert({_id:2,name:"Anil",age:48,subject:["Hindi","English"],DOB:"1999-08-25",gender:"Male",salary:47000,city:"a'bad"})
+db.Teacher.insert({_id:3,name:"Akash",age:28,subject:["Hindi","Guj"],DOB:"1981-01-01",gender:"Male",salary:30000,city:"baroda"})
+db.Teacher.insert({_id:4,name:"Brinda",age:26,subject:["Computer","Guj"],DOB:"1988-12-11",gender:"Feale",salary:38000,city:"surat"})
+db.Teacher.insert({_id:5,name:"Sweta",age:25,subject:["English","Sanskrit"],DOB:"1988-12-11",gender:"Female",salary:39000,city:"surat"})
+-----------------------------------------------------
+db.Teacher.find()
+db.Teacher.find().pretty()
+db.Teacher.remove({}) <--REmove all record

@@ -1,0 +1,21 @@
+hdfs dfs -mkdir /menu
+
+hdfs dfs -put -f C:\menu.csv \menu
+
+Menu = LOAD 'hdfs://localhost:9000/menu/menu.csv' USING PigStorage(',') as ( category:chararray, name:chararray, price:float );
+
+menu_greater_than_30 = FILTER Menu BY (float)price>30;
+
+menu_starting_with_panner = FILTER Menu by name matches '.*Panner.*';
+
+desc_menu_by_price = ORDER Menu BY price DESC;
+
+top_10_exp_meal = LIMIT desc_menu_by_price 10;
+
+___________
+meal = LOAD 'hdfs://localhost:9000/menu/menu.csv' USING PigStorage(',') as ( category:chararray, name:chararray, price:float );
+
+meal_group_all = Group meal All;
+meal_group_all = Group meal by category;
+
+meal_price_avg = foreach meal_group_all Generate (meal.Name,meal.Price),AVG(meal.Price);

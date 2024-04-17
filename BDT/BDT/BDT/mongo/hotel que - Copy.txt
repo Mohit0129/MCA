@@ -1,0 +1,132 @@
+db.HotelBookings.insert({
+	_id:1,
+	HotelId:"HOT0395",
+	HotelName:"Taj Hotel",
+	HotelType:["1 Star","2 Star", "4 Star"],
+	TotNoOfRooms:41,
+	CityName:"Mumbai", 
+	DateOfRegistration:new Date("21-Jan-20"),
+	ContactNumber:5679815468, 
+	Ratings:4.1, 
+	Owners:["Tata","Adani"],
+	Bookings:[
+		{BookingId:1, BookingDate:Date(),RoomType:["Double","twin","Single"],CustomerName:"Mr. Akash",NoOfRoomsBooked:2,Price:2500,Discount:10},
+		{BookingId:2, BookingDate:Date(),RoomType:["Super"],CustomerName:"Mrs. Kiran",NoOfRoomsBooked:1,Price:2000,Discount:5}
+		]
+	})
+db.HotelBookings.insert({
+	_id:2,
+	HotelId:"HOT2659",
+	HotelName:"Silver Star",
+	HotelType:["1 Star","2 Star", "5 Star"],
+	TotNoOfRooms:35,
+	CityName:"Ahmedabad", 
+	DateOfRegistration:new Date("2-Sept-19"),
+	ContactNumber:7514598348, 
+	Ratings:3.5, 
+	Owners:["Ambani","Radhika"],
+	Bookings:[
+		{BookingId:1, BookingDate:Date(),RoomType:["Deluxe","twin"],CustomerName:"Mr. Kiran",NoOfRoomsBooked:2,Price:1800,Discount:5},
+		{BookingId:2, BookingDate:Date(),RoomType:["Super"],CustomerName:"Ms. Kiara",NoOfRoomsBooked:1,Price:1500,Discount:19},
+		{BookingId:3, BookingDate:Date(),RoomType:["Double","Single"],CustomerName:"Mr. Akshay",NoOfRoomsBooked:2,Price:1900,Discount:20}
+		]
+	})
+db.HotelBookings.insert({
+	_id:3,
+	HotelId:"HOT3951",
+	HotelName:"Hotel Marriott",
+	HotelType:["2 Star","3 Star","5 Star", "7 Star"],
+	TotNoOfRooms:62,
+	CityName:"Ahmedabad", 
+	DateOfRegistration:new Date("31-Jan-17"),
+	ContactNumber:4378159765, 
+	Ratings:4.8, 
+	Owners:["Mohit","Maulik", "Ketan"],
+	Bookings:[
+		{BookingId:1, BookingDate:Date(),RoomType:["Double","twin", "Super"],CustomerName:"Mr. Nilesh",NoOfRoomsBooked:3,Price:5000,Discount:10},
+		{BookingId:2, BookingDate:Date(),RoomType:["Super","twin"],CustomerName:"Mr. Kiran",NoOfRoomsBooked:2,Price:4500,Discount:20},
+		{BookingId:3, BookingDate:Date(),RoomType:["Super Deluxe","Deluxe", "Single"],CustomerName:"Mrs. Princy",NoOfRoomsBooked:2,Price:6400,Discount:40},
+		{BookingId:4, BookingDate:Date(),RoomType:["Special","Super Special"],CustomerName:"Ms. Lucy",NoOfRoomsBooked:1,Price:3900,Discount:16},
+		{BookingId:5, BookingDate:Date(),RoomType:["Super Deluxe","twin"],CustomerName:"Mr. Sahdev",NoOfRoomsBooked:1,Price:2600,Discount:15}
+		]
+	})
+db.HotelBookings.insert({
+	_id:4,
+	HotelId:"HOT2156",
+	HotelName:"Hotel Sunrise",
+	HotelType:"2 Star",
+	TotNoOfRooms:5,
+	CityName:"Surat", 
+	DateOfRegistration:new Date("17-Feb-20"),
+	ContactNumber:6751894324, 
+	Ratings:1.2, 
+	Owners:["Sahdev","Kiran", "Nilesh"],
+	Bookings:[
+		{BookingId:1, BookingDate:Date(),RoomType:["Single"],CustomerName:"Mr. Dhrumil",NoOfRoomsBooked:1,Price:500,Discount:2}
+		]
+	})
+db.HotelBookings.insert({
+	_id:5,
+	HotelId:"HOT3654",
+	HotelName:"Blur-Sky Hotel",
+	HotelType:["1 Star","2 Star", "4 Star"],
+	TotNoOfRooms:42,
+	CityName:"Vadodara", 
+	DateOfRegistration:new Date("21-Dec-21"),
+	ContactNumber:9753175462, 
+	Ratings:3.8, 
+	Owners:["Khuman","Bhautik"],
+	Bookings:[
+		{BookingId:1, BookingDate:Date(),RoomType:["Double","twin"],CustomerName:"Mr. Kunj",NoOfRoomsBooked:1,Price:2500,Discount:10},
+		{BookingId:2, BookingDate:Date(),RoomType:["Deluxe","twin"],CustomerName:"Mrs. Shila",NoOfRoomsBooked:3,Price:1900,Discount:1},
+		{BookingId:3, BookingDate:Date(),RoomType:["Double","twin"],CustomerName:"Mr. Kiran",NoOfRoomsBooked:1,Price:2200,Discount:5},
+		{BookingId:4, BookingDate:Date(),RoomType:["Double","twin"],CustomerName:"Mr. Nilesh",NoOfRoomsBooked:2,Price:2800,Discount:23}
+		]
+	})
+db.HotelBookings.insert({
+	_id:6,
+	HotelId:"HOT3521",
+	HotelName:"Hotel Paradise",
+	HotelType:["2 Star","3 Star"],
+	TotNoOfRooms:50,
+	CityName:"Hyderabad", 
+	DateOfRegistration:new Date("22-Aug-20"),
+	ContactNumber:8764394106, 
+	Ratings:2.6, 
+	Owners:["Vivek","Dhrumil", "Kunj"],
+	Bookings:[
+		{BookingId:1, BookingDate:Date(),RoomType:["Double","twin"],CustomerName:"Mrs. Natasha",NoOfRoomsBooked:2,Price:1600,Discount:15},
+		{BookingId:2, BookingDate:Date(),RoomType:["Double","twin"],CustomerName:"Mrs. Asha",NoOfRoomsBooked:1,Price:1000,Discount:5}
+		]
+	})
+	
+	
+Queries::::::::::::::::::::
+
+1. > db.HotelBookings.find({TotNoOfRooms:{$gt:35}},{_id:0,HotelName:1})
+{ "HotelName" : "Taj Hotel" }
+{ "HotelName" : "Hotel Marriott" }
+{ "HotelName" : "Blur-Sky Hotel" }
+{ "HotelName" : "Hotel Paradise" }
+
+2. > db.HotelBookings.find({$or:[{HotelId:"HOT0395"},{HotelId:"HOT2659"}]},{HotelName:1,CityName:1})
+{ "_id" : 1, "HotelName" : "Taj Hotel", "CityName" : "Mumbai" }
+{ "_id" : 2, "HotelName" : "Silver Star", "CityName" : "Ahmedabad" }
+
+3. > db.HotelBookings.find({$or:[{TotNoOfRooms:{$gt:30},TotNoOfRooms:{$lt:45}}]},{HotelName:1, DateOfRegistration:1})
+{ "_id" : 1, "HotelName" : "Taj Hotel", "DateOfRegistration" : ISODate("1970-01-01T00:00:00Z") }
+{ "_id" : 2, "HotelName" : "Silver Star", "DateOfRegistration" : ISODate("1970-01-01T00:00:00Z") }
+{ "_id" : 4, "HotelName" : "Hotel Sunrise", "DateOfRegistration" : ISODate("1970-01-01T00:00:00Z") }
+{ "_id" : 5, "HotelName" : "Blur-Sky Hotel", "DateOfRegistration" : ISODate("1970-01-01T00:00:00Z") }
+
+4.> db.HotelBookings.update({HotelId:"HOT3951"},{$set:{"HotelType":["5 Star", "7 Star"]}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+10. > db.HotelBookings.aggregate({$project:{number_of_owners:{$size:"$Owners"},HotelName:1}},{$out:"number_of_owners"})
+> db.number_of_owners.find()
+{ "_id" : 1, "HotelName" : "Taj Hotel", "number_of_owners" : 2 }
+{ "_id" : 2, "HotelName" : "Silver Star", "number_of_owners" : 2 }
+{ "_id" : 3, "HotelName" : "Hotel Marriott", "number_of_owners" : 3 }
+{ "_id" : 4, "HotelName" : "Hotel Sunrise", "number_of_owners" : 3 }
+{ "_id" : 5, "HotelName" : "Blur-Sky Hotel", "number_of_owners" : 2 }
+{ "_id" : 6, "HotelName" : "Hotel Paradise", "number_of_owners" : 3 }

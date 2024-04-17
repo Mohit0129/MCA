@@ -1,0 +1,35 @@
+stud = LOAD 'hdfs://localhost:9000/stud/student2.txt' USING PigStorage(',') as ( id:int, firstname:chararray, lastname:chararray, phone:chararray, city:chararray );
+
+filter_data = FILTER stud BY city == 'Delhi';
+
+distinct_data = DISTINCT stud;
+
+foreach_data = FOREACH stud GENERATE id,city;
+
+stud_group = GROUP stud All;
+
+stud_count = FOREACH stud_group Generate COUNT(stud.city);
+
+stud_count = FOREACH stud_group Generate COUNT_STAR(stud.city);
+
+stud_count = FOREACH stud_group Generate SIZE(stud.city);
+
+tobag = FOREACH stud Generate TOBAG (id,firstname, lastname, phone, city);
+
+
+
+stud_group = GROUP stud BY city;
+
+data_top = FOREACH stud_group{
+	top = TOP(2, 0, stud);
+	Generate top;
+};
+
+
+
+totuple = FOREACH stud Generate TOTUPLE (id, firstname, lastname, city);
+
+
+tomap = FOREACH stud Generate TOMAP( firstname, lastname );
+
+

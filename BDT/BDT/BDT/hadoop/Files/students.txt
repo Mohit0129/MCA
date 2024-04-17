@@ -1,0 +1,44 @@
+001,Rajiv Reddy, 51, 7.9
+002,Siddarth Battacharya, 62, 8.6
+003,Rajesh Khanna, 42, 7.2
+004,Preethi Agarwal, 31, 7.9
+005,Trupathi Mohanthy, 83, 3.3
+006,Archana Mishra, 33, 7.9
+007,Komal Nayak, 94, 5.1
+008,Bharathi Nambiayar, 44, 3.4
+009,Preethi Agarwal, 61, 7.9
+010,Siddarth Reddy, 62, 8.6
+011,Archana Mishra, 33, 7.9
+012,Archana Mishra, 33, 7.9
+
+grunt> students = LOAD 'hdfs://localhost:9000/pig_example/student.txt' USING PigStorage(',') as ( rollno:int, name:chararray, marks:int, GPA:float );
+grunt> dump students;
+
+grunt> Ans1=FILTER students BY (float)GPA>7;
+grunt> dump Ans1;
+
+B..
+grunt> upper_name = FOREACH students GENERATE (rollno,name), UPPER(name);
+grunt> dump upper_name;
+
+C..
+grunt> group_data_gpa = GROUP students by GPA;
+grunt> dump group_data_gpa;
+
+D..
+grunt> distinct_data = DISTINCT students;
+grunt> dump distinct_data;
+
+E..
+grunt> top_3_students = LIMIT students 3;
+grunt> DUMP top_3_students;
+
+E..
+grunt> desc_student_by_id = ORDER students BY id DESC;
+	DUMP desc_student_by_id;
+grunt> last_3_students = LIMIT desc_student_bu_id 3;
+	DUMP last_3_students;
+
+F..
+grunt> asc_students_by_name = ORDER students BY name ASC;
+grunt> DUMP asc_students_by_name;

@@ -1,0 +1,509 @@
+2nd lab BIG DATA
+collection is a collection of set of data
+table
+--fields are fixed
+//RELATIONAL DATABASE
+//NoSql 
+--not only sql
+--eg mongodb
+//DBMS
+--collection of data
+--one to one
+--one to many
+Foriegn Key
+--use for transaction file
+
+create database
+	--insert
+	--update
+	--save
+ use IMCA41 	//database created
+switched to db IMCA41
+
+db.createCollection("person")		//collection created(table)
+{ "ok" : 1 }
+{} for document
+() for function
+
+in  mongo it will create automaticall primary key
+_id use for identifier
+
+FOR INSERTING
+db.person.insert({_id:1,person_name:"neno",contact_no:123445,city:"a'bad"})
+WriteResult({ "nInserted" : 1 })
+
+FOR SHOWING
+ db.person.find()		//find is use to show/view data
+{ "_id" : 1, "person_name" : "neno", "contact_no" : 123445, "city" : "a'bad" }
+
+db.person.insert({person_name:"avxpa",contact_no:45,city:"kutch"})		//without id
+WriteResult({ "nInserted" : 1 })
+
+db.person.insert({_id:2,person_name:"nilpa",contact_no:3453445})		//withourt city
+WriteResult({ "nInserted" : 1 })
+
+FOR SHOWING IN FORMAT
+> db.person.find().pretty()
+
+{
+	"_id" : 1,
+	"person_name" : "neno",
+	"contact_no" : 123445,
+	"city" : "a'bad"
+}
+FOR SEARCHING (id)
+db.person.find({_id:1})
+{ "_id" : 1, "person_name" : "neno", "contact_no" : 123445, "city" : "a'bad" }
+search the record with criteria
+
+FOR SEARCHING (name)
+db.person.find({person_name:"neno"})
+\{ "_id" : 1, "person_name" : "neno", "contact_no" : 123445, "city" : "a'bad" }
+{ "_id" : 10, "person_name" : "neno", "contact_no" : 123445, "city" : "a'bad" }
+>
+FOR SEARCHING (city)
+db.person.find({city:"a'bad"})
+{ "_id" : 1, "person_name" : "neno", "contact_no" : 123445, "city" : "a'bad" }
+{ "_id" : 10, "person_name" : "neno", "contact_no" : 123445, "city" : "a'bad" }
+{ "_id" : 3, "person_name" : "creya", "city" : "a'bad" }
+> 
+CREATING COLLECTION WITHOUT using CREATECOLLECTION
+> db.Fruits.insert({_id:1,name:"orange",color:"orange",size:"small",rate:50})	//insert() is used to create collection and inserting data.
+WriteResult({ "nInserted" : 1 })
+
+FOR UPDATING with upsert false
+ db.person.update({person_name:"neno"},{$set:{city:"hyderabad"}},{upsert:false})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+upsert false:search the doc 
+
+FOR UPDATING with upsert true
+
+ db.person.update({person_name:"rutvi"},{$set:{city:"hyderabad"}},{upsert:true})
+WriteResult({
+	"nMatched" : 0,
+	"nUpserted" : 1,
+	"nModified" : 0,
+	"_id" : ObjectId("5df982e9b6aedd120e43fb07")
+})
+> db.person.find()
+{ "_id" : 1, "person_name" : "neno", "contact_no" : 123445, "city" : "hyderabad" }
+{ "_id" : 10, "person_name" : "neno", "contact_no" : 123445, "city" : "a'bad" }
+{ "_id" : 2, "person_name" : "nilpa", "contact_no" : 3453445 }
+{ "_id" : 3, "person_name" : "creya", "city" : "a'bad" }
+{ "_id" : ObjectId("5df97d16a92c5289077455ec"), "person_name" : "avxpa", "contact_no" : 45, "city" : "kutch" }
+{ "_id" : ObjectId("5df982e9b6aedd120e43fb07"), "person_name" : "rutvi", "city" : "hyderabad" }
+> 
+FOR UPDATING
+
+upsert true: if not found it will insert
+
+db.person.update({person_name:"neno"},{$set:{city:"jammu"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+FOR SAVE
+
+//save in existing
+ db.person.save({_id:1,person_name:"nilpa",city:"ahme"})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.person.find().pretty()
+{ "_id" : 1, "person_name" : "nilpa", "city" : "ahme" }
+{
+	"_id" : 10,
+	"person_name" : "neno",
+	"contact_no" : 123445,
+	"city" : "a'bad"
+}
+{ "_id" : 2, "person_name" : "nilpa", "contact_no" : 3453445 }
+{ "_id" : 3, "person_name" : "creya", "city" : "a'bad" }
+{
+	"_id" : ObjectId("5df97d16a92c5289077455ec"),
+	"person_name" : "avxpa",
+	"contact_no" : 45,
+	"city" : "kutch"
+}
+{
+	"_id" : ObjectId("5df982e9b6aedd120e43fb07"),
+	"person_name" : "rutvi",
+	"city" : "hyderabad"
+}
+{
+	"_id" : ObjectId("5df98670b6aedd120e43fb08"),
+	"person_name" : "nisha",
+	"city" : "abc"
+}
+{ "_id" : 5, "person_name" : "a", "city" : "ahmedabad" }
+> 
+// save a new record
+db.person.save({_id:5,person_name:"a",city:"ahmedabad"})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.person.find().pretty()
+{ "_id" : 1, "person_name" : "nilpa", "city" : "ahme" }
+{
+	"_id" : 10,
+	"person_name" : "neno",
+	"contact_no" : 123445,
+	"city" : "a'bad"
+}
+{ "_id" : 2, "person_name" : "nilpa", "contact_no" : 3453445 }
+{ "_id" : 3, "person_name" : "creya", "city" : "a'bad" }
+{
+	"_id" : ObjectId("5df97d16a92c5289077455ec"),
+	"person_name" : "avxpa",
+	"contact_no" : 45,
+	"city" : "kutch"
+}
+{
+	"_id" : ObjectId("5df982e9b6aedd120e43fb07"),
+	"person_name" : "rutvi",
+	"city" : "hyderabad"
+}
+{
+	"_id" : ObjectId("5df98670b6aedd120e43fb08"),
+	"person_name" : "nisha",
+	"city" : "abc"
+}
+{ "_id" : 5, "person_name" : "a", "city" : "ahmedabad" }
+> 
+update will update the fields accordin to criteria
+save will update documents
+
+TO ADD A NEW FIELD
+db.person.update({person_name:"nilpa"},{$set:{age:26}})		//a new AGE column is inserted
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+write a command to see that new field age 26 is added succesfully or not
+
+ db.person.find({person_name:"nilpa"})
+{ "_id" : 1, "person_name" : "nilpa", "city" : "ahme", "age" : 26 }
+	
+TO REMOVE FIELD USE UNSET
+ db.person.update({person_name:"nilpa"},{$unset:{age:28}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+write a command to add a new field in id 1
+db.person.update({_id:1},{$set:{loctaion:"abc"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+PRINT NAME WITH NO CRITERIA 
+db.person.find({},{person_name:1})	// 1 means print name
+{ "_id" : 1, "person_name" : "nilpa" }
+{ "_id" : 10, "person_name" : "neno" }
+{ "_id" : 2, "person_name" : "nilpa" }
+{ "_id" : 3, "person_name" : "creya" }
+{ "_id" : ObjectId("5df97d16a92c5289077455ec"), "person_name" : "avxpa" }
+{ "_id" : ObjectId("5df982e9b6aedd120e43fb07"), "person_name" : "rutvi" }
+{ "_id" : ObjectId("5df98670b6aedd120e43fb08"), "person_name" : "nisha" }
+{ "_id" : 5, "person_name" : "a" }
+
+
+db.person.find({},{person_name:0})	//0 means not to print names
+{ "_id" : 1, "city" : "ahme", "loctaion" : "abc" }
+{ "_id" : 10, "contact_no" : 123445, "city" : "a'bad" }
+{ "_id" : 2, "contact_no" : 3453445 }
+{ "_id" : 3, "city" : "a'bad" }
+{ "_id" : ObjectId("5df97d16a92c5289077455ec"), "contact_no" : 45, "city" : "kutch" }
+{ "_id" : ObjectId("5df982e9b6aedd120e43fb07"), "city" : "hyderabad" }
+{ "_id" : ObjectId("5df98670b6aedd120e43fb08"), "city" : "abc" }
+{ "_id" : 5, "city" : "ahmedabad" }
+
+
+--------------------------------READ operation-----------------------------
+db.student.find().pretty()
+db.student.find()
+db.person.find({person_name:"neno"})
+
+To display stduents and ids(without any criteria ) for all students
+db.student.find({},{name:1})
+{ "_id" : 1, "name" : "neno" }
+{ "_id" : 2, "name" : "nilpa" }
+{ "_id" : 3, "name" : "nano" }
+{ "_id" : 4, "name" : "shreya" }
+{ "_id" : 5, "name" : "rutvi" }
+
+
+to display only studdent name for all student(no ids)
+db.student.find({},{name:1,_id:0}) id 0 means not to print id
+{ "name" : "neno" }
+{ "name" : "nilpa" }
+{ "name" : "nano" }
+{ "name" : "shreya" }
+{ "name" : "rutvi" }
+
+Relational opeartors
+$eq->equals to
+$ne->not equals to
+$gte->greater than or equal to
+$lte->less than or equal to
+$gt->greater than
+$lt->less than
+
+to display all students whose name is not "sangeeta"
+ db.student.find({name:{$ne:"shreya"}})
+{ "_id" : 1, "name" : "neno", "grade" : "aa", "hobby" : "singing", "age" : 20 }
+{ "_id" : 2, "name" : "nilpa", "grade" : "ab", "hobby" : "dancing" }
+{ "_id" : 3, "name" : "nano", "grade" : "aa" }
+{ "_id" : 5, "name" : "rutvi", "grade" : "bb", "hobby" : "dancing" }
+
+to display all students whose grade is not "aa"
+db.student.find({grade:{$ne:"aa"}})
+{ "_id" : 2, "name" : "nilpa", "grade" : "ab", "hobby" : "dancing" }
+{ "_id" : 4, "name" : "shreya", "grade" : "ab", "hobby" : "dancing", "age" : 24 }
+{ "_id" : 5, "name" : "rutvi", "grade" : "bb", "hobby" : "dancing" }
+
+to display students whose age is greater than 16
+
+ db.student.find({age:{$gt:16}})
+{ "_id" : 1, "name" : "neno", "grade" : "aa", "hobby" : "singing", "age" : 20 }
+{ "_id" : 4, "name" : "shreya", "grade" : "ab", "hobby" : "dancing", "age" : 24 }
+
+to display students whose age is greater than 16 and less than 23
+
+db.student.find({age:{$gt:16,$lt:23}})
+{ "_id" : 1, "name" : "neno", "grade" : "aa", "hobby" : "singing", "age" : 20 }
+
+to display students name and ids for those whose age is greater than 20
+db.student.find({age:{$gt:20}},{name:1})
+{ "_id" : 4, "name" : "shreya" }
+
+to display students name for those whose age is greater than 20
+
+db.student.find({age:{$gt:20}},{name:1,_id:0})
+{ "name" : "shreya" }
+
+to display only the student names ,for whom age is less than 25
+ db.student.find({age:{$lt:25}},{name:1,_id:0})
+{ "name" : "neno" }
+{ "name" : "shreya" }
+
+to display the students details whose hobby is either skating or painting
+ db.student.find({hobby:{$in:["dancing","reading"]}})
+{ "_id" : 2, "name" : "nilpa", "grade" : "ab", "hobby" : "dancing" }
+{ "_id" : 4, "name" : "shreya", "grade" : "ab", "hobby" : "dancing", "age" : 24 }
+{ "_id" : 5, "name" : "rutvi", "grade" : "bb", "hobby" : "dancing" }
+
+to display the students names whose hobby is either skating or painting
+
+ db.student.find({hobby:{$in:["dancing","reading"]}},{name:1,_id:0})
+{ "name" : "nilpa" }
+{ "name" : "shreya" }
+{ "name" : "rutvi" }
+
+to display the students whose id are 2 and 4
+
+db.Student.find({_id:{$in:[2,4]}})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+{ "_id" : 4, "name" : "shrea", "grade" : "aa" }
+
+OR
+
+ db.Student .find({$or:[{_id:2},{_id:4}]})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+{ "_id" : 4, "name" : "shrea", "grade" : "aa" }
+
+
+to display grades and names whose age is either 20 or 24
+ db.student.find({age:{$in:[20,24]}},{name:1,grade:1,_id:0})
+{ "name" : "neno", "grade" : "aa" }
+{ "name" : "shreya", "grade" : "ab" }
+
+to display all students names except sangeeta and jinal
+--Destails
+
+ db.student.find({name:{$in:["shreya","nilpa"]}})
+{ "_id" : 2, "name" : "nilpa", "grade" : "ab", "hobby" : "dancing" }
+{ "_id" : 4, "name" : "shreya", "grade" : "ab", "hobby" : "dancing", "age" : 24 }
+
+--only names
+
+db.student.find({name:{$in:["shreya","nilpa"]}},{name:1,_id:0})
+{ "name" : "nilpa" }
+{ "name" : "shreya" }
+
+display only names of the students wjsoe hobby is not reading and age is less than 20
+
+db.student.find({hobby:{$ne:"reading"},age:{$lt:24}})
+{ "_id" : 1, "name" : "neno", "grade" : "aa", "hobby" : "singing", "age" : 20 }
+> 
+
+---------------------------------------------------------------------------------------
+REGULAR EXPRESSION		//1que in exam
+is a read operation
+1. to display students documents whose name begin with 'A'
+
+db.Student.find({Name:/^A/})
+{ "_id" : 1, "Name" : "AYUSHI", "LNAME" : "Khanna", "Hobbies" : "Travelling", "LOCATION" : "NEWYORK" }
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+
+-------------OR-------------------
+
+> db.Student.find({Name:{$regex:"A"}})
+{ "_id" : 1, "Name" : "AYUSHI", "LNAME" : "Khanna", "Hobbies" : "Travelling", "LOCATION" : "NEWYORK" }
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+> 
+
+^ for beginning
+$ for ending
+
+to display only the names of students documents whose name begin with 'A'
+
+db.Student.find({Name:{$regex:"^A"}},{Name:1,_id:0})
+{ "Name" : "AYUSHI" }
+{ "Name" : "APRA" }
+
+To find out or the display the documents where the students names end with letter'a'
+ db.Student.find({Name:/A$/})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+> 
+
+to display documents containing letter R
+ db.Student.find({Name:{$regex:"R"}})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+
+OR
+
+db.Student.find({Name:/.*P.*/})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+
+OR
+
+db.Student.find({Name:{$regex:/I/}})
+{ "_id" : 1, "Name" : "AYUSHI", "LNAME" : "Khanna", "Hobbies" : "Travelling", "LOCATION" : "NEWYORK" }
+
+to count num of documents
+ db.Student.count()
+2
+
+to count no of doc where student hobby is skatinh
+
+db.Student.count({Hobbies:{$eq:"Travelling"}})
+2
+
+OR
+
+> db.Student.count({Hobbies:"Travelling"})
+2
+to to find no of doc where student hobby is skatinh
+db.Student.find({Hobbies:"Travelling"})
+{ "_id" : 1, "Name" : "AYUSHI", "LNAME" : "Khanna", "Hobbies" : "Travelling", "LOCATION" : "NEWYORK" }
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+> 
+
+to to find no of doc where student hobby is travelling where limit is 1
+db.Student.find({Hobbies:"Travelling"}).limit(1)
+{ "_id" : 1, "Name" : "AYUSHI", "LNAME" : "Khanna", "Hobbies" : "Travelling", "LOCATION" : "NEWYORK" }
+> 
+to sort students according to studentnames
+db.Student.find().sort({Name:1})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+{ "_id" : 1, "Name" : "AYUSHI", "LNAME" : "Khanna", "Hobbies" : "Travelling", "LOCATION" : "NEWYORK" }
+
+to display students accor to name with grades
+ db.Student.find({},{Name:1,grade:1,_id:0}).sort({Name:1})
+{ "grade" : "ab" }
+{ "grade" : "aa" }
+{ "Name" : "APRA" }
+> 
+to display only student names in the desc order
+
+ db.Student.find({},{name:1,_id:0}).sort({name:-1})
+{ "name" : "shrea" }
+{ "name" : "nilpa" }
+{  }
+
+to sort students first on students name in ascending order followed by hobbies sorted in ascending orer
+
+ db.Student.find().sort({name:1,Hobbies:1})
+
+ db.Student.find().sort({name:1,Hobbies:1})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+{ "_id" : 1, "name" : "nilpa", "grade" : "ab" }
+{ "_id" : 6, "name" : "nilpa", "Hobiies" : "Reading" }
+{ "_id" : 7, "name" : "nilpa", "Hobbies" : "Travelling" }
+{ "_id" : 5, "name" : "rutvi", "Hobiies" : "Reading" }
+{ "_id" : 4, "name" : "shrea", "grade" : "aa" }
+> 
+Hobbies is sorted when same name is exist
+
+to skip
+to display all the documents except the first 3 
+db.Student.find().skip(3)
+{ "_id" : 5, "name" : "rutvi", "Hobiies" : "Reading" }
+{ "_id" : 6, "name" : "nilpa", "Hobiies" : "Reading" }
+{ "_id" : 7, "name" : "nilpa", "Hobbies" : "Travelling" }
+> 
+to display  only last 3 doc
+ db.Student.find().skip(db.Student.count()-3)
+{ "_id" : 5, "name" : "rutvi", "Hobiies" : "Reading" }
+{ "_id" : 6, "name" : "nilpa", "Hobiies" : "Reading" }
+{ "_id" : 7, "name" : "nilpa", "Hobbies" : "Travelling" }
+> 
+when to use null values
+it is use when some values are missing or we dont know the value
+
+--------------------------------------------Working with null values-----------------------
+ db.Student.update({_id:4},{$set:{loc:null}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Student .find({$or:[{_id:2},{_id:4}]})
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling", "loc" : null }
+{ "_id" : 4, "name" : "shrea", "grade" : "aa", "loc" : null }
+> 
+display those docu,ents where location is null
+
+db.Student.count({loc:null})
+6
+
+OR
+
+db.Student.find({loc:{$eq:null}})
+{ "_id" : 1, "name" : "nilpa", "grade" : "ab" }
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling", "loc" : null }
+{ "_id" : 5, "name" : "rutvi", "Hobiies" : "Reading" }
+{ "_id" : 6, "name" : "nilpa", "Hobiies" : "Reading" }
+{ "_id" : 7, "name" : "nilpa", "Hobbies" : "Travelling" }
+> 
+
+> 
+
+to remove the field loc
+db.Student.update({_id:4},{$unset:{loc:null}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Student.update({_id:2},{$unset:{loc:null}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Student.find()
+{ "_id" : 1, "name" : "nilpa", "grade" : "ab" }
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling" }
+{ "_id" : 4, "name" : "shrea", "grade" : "aa" }
+{ "_id" : 5, "name" : "rutvi", "Hobiies" : "Reading" }
+{ "_id" : 6, "name" : "nilpa", "Hobiies" : "Reading" }
+{ "_id" : 7, "name" : "nilpa", "Hobbies" : "Travelling" }
+
+
+> 
+to display _id 2 and 3 record
+
+db.Student.find().skip(1).limit(2)
+{ "_id" : 2, "Name" : "APRA", "LNAME" : "Khanna", "Hobbies" : "Travelling", "loc" : null }
+{ "_id" : 4, "name" : "shrea", "grade" : "aa", "loc" : "ahmedadvd" }
+> 
+
+to display skip 3 record
+
+ db.Student.find().skip(3).limit(3)
+{ "_id" : 5, "name" : "rutvi", "Hobiies" : "Reading" }
+{ "_id" : 6, "name" : "nilpa", "Hobiies" : "Reading" }
+{ "_id" : 7, "name" : "nilpa", "Hobbies" : "Travelling" }
+> 
+OR
+
+db.Student.find().skip(3)
+
+To remove _id 3 
+db.Student.remove({_id:3})
+WriteResult({ "nRemoved" : 0 })
+
+to drop the dataabse
+
+db.Student.drop()
+
+

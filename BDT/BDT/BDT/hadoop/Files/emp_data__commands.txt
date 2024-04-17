@@ -1,0 +1,13 @@
+emp_data = LOAD 'hdfs://localhost:9000/pig_data/emp_data.txt' USING PigStorage(',') as (id:int, name:chararray, age:int, city:chararray );
+
+emp_group = Group emp_data BY age;
+
+data_top = FOREACH emp_group{
+	top = TOP(2, 0, emp_data);
+	Generate top;
+}
+
+data_top = FOREACH emp_group{
+	top = TOP(1, 0, emp_data);
+	Generate top;
+}

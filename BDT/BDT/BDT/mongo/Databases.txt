@@ -1,0 +1,115 @@
+db.Student_Master.insertMany([{_id:1,rollno:1,name:"Akshay",grade:"VII",hobby:['chess','dancing'],doj:"2015-02-15"},{_id:2,rollno:2,name:"Prince",grade:"VI",hobby:['playing','music'],doj:"2011-12-25"},{_id:3,rollno:3,name:"jay",grade:"X",hobby:['cricket','tennis'],doj:"2011-05-27"},{_id:4,rollno:4,name:"dev",grade:"I",hobby:['chess','badminton'],doj:"2012-11-30"},{_id:5,rollno:5,name:"rutvik",grade:"VII",hobby:['football','playing'],doj:"2000-12-31"},{_id:6,rollno:6,name:"bhargavi",grade:"II",hobby:['chess','dancing'],doj:"1995-12-05"},{_id:7,rollno:7,name:"shreya",grade:"III",hobby:['reading','travelling'],doj:"1999-10-04"},{_id:8,rollno:8,name:"haresh",grade:"XI",hobby:['listening','writing'],doj:"1998-12-24"},{_id:9,rollno:9,name:"hiren",grade:"XII",hobby:['chess','reading'],doj:"2001-02-07"},{_id:10,rollno:10,name:"ramesh",grade:"VI",hobby:['drawing','dancing'],doj:"2015-02-15"}])
+
+--movies
+db.Movie.insert({title:"Avatar",directors:"James Cameron",year:"2009",actor:["Sam Worthington","Zoe Saldaña"]})
+db.Movie.insert({title:"Avatar",directors:"James Cameron",year:"2023",actor:["Sam Worthington","Zoe Saldaña"]})
+db.Movie.insert({title:"avengers endgame",directors:"Joe Russo",year:"2009",actor:["robert downy jr.","chris hemsworth"]})
+
+------customers--
+db.Customers.insertMany([
+	{
+	"CustID":"C123",
+	"AccBal":500,
+	"AccType":"S"
+	},
+	{
+	"CustID":"C123",
+	"AccBal":900,
+	"AccType":"S"
+	},
+	{
+	"CustID":"C123",
+	"AccBal":1500,
+	"AccType":"C"
+	},
+	{
+	"CustID":"C111",
+	"AccBal":1200,
+	"AccType":"S"
+	},
+	{
+	"CustID":"C111",
+	"AccBal":1000,
+	"AccType":"C"
+	},
+	{
+	"CustID":"C111",
+	"AccBal":1000,
+	"AccType":"C"
+	},
+	{
+	"CustID":"C111",
+	"AccBal":100,
+	"AccType":"C"
+	},
+	{
+	"CustID":"C111",
+	"AccBal":1000,
+	"AccType":"C"
+	},
+	])
+
+_____________________________________________________________
+
+db.Sales.insertMany([
+	{_id:1,
+	productId:"Pid0023",
+	productName:"TV",
+	saleDate:"21-Mar-2023",
+	salePrice:2000,
+	saleQuantity:150,
+	purchaseDate:"18-Mar-2023",
+	purchasePrice:1000,
+	purchaseQuantity:50
+	},
+	{_id:2,
+	productId:"Pid0231",
+	productName:"Speaker",
+	saleDate:"1-Mar-2023",
+	salePrice:12000,
+	saleQuantity:100,
+	purchaseDate:"18-Mar-2023",
+	purchasePrice:10000,
+	purchaseQuantity:150
+	},
+	{_id:3,
+	productId:"Pid0555",
+	productName:"Microwave",
+	saleDate:"1-Feb-2023",
+	salePrice:1200,
+	saleQuantity:10,
+	purchaseDate:"1-Apr-2023",
+	purchasePrice:100,
+	purchaseQuantity:10
+	}
+	{_id:3,
+	productId:"Pid0555",
+	productName:"Microwave",
+	saleDate:"1-Feb-2023",
+	salePrice:1200,
+	saleQuantity:10,
+	purchaseDate:"1-Apr-2023",
+	purchasePrice:100,
+	purchaseQuantity:10
+	},
+	{_id:4,
+	productId:"Pid0044",
+	productName:"Mouse",
+	saleDate:"1-Feb-2023",
+	salePrice:100,
+	saleQuantity:10,
+	purchaseDate:"1-Apr-2023",
+	purchasePrice:90,
+	purchaseQuantity:10
+	}
+
+])
+
+__________________________________
+Books commands--
+
+-----
+> db.Books.aggregate({$project:{number_of_authors:{$size:"$authors"}}},{$out:"number_of_authors"}).pretty()
+> db.number_of_authors.find()
+-----
+> db.Books.aggregate({$group:{_id:"$publisher",total_books:{$sum:1}}})

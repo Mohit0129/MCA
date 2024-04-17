@@ -1,0 +1,4 @@
+E001,Jinal,Admin,5000,42,ahmedabad
+E002,Rishi,HR,5100,24,ahmedabad
+E003,Ravi,Account,4500,22,surat
+E004,Harshil,Admin,1100,21,surat

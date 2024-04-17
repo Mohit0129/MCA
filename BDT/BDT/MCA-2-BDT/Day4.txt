@@ -1,0 +1,315 @@
+---------------------- Day4 ---------------------------------------
+use employees
+
+db.createCollection("employees")
+
+db.employees.insert({"name":"Adma","dept":"Admin","languages":["german","french","english","hindi"],"age":30, "totalExp":10});
+db.employees.insert({"name":"Anna","dept":"Admin","languages":["english","hindi"],"age":35, "totalExp":11});
+db.employees.insert({"name":"Bob","dept":"Facilities","languages":["english","hindi"],"age":36, "totalExp":14});
+db.employees.insert({"name":"Cathy","dept":"Facilities","languages":["hindi"],"age":31, "totalExp":4});
+db.employees.insert({"name":"Mike","dept":"HR","languages":["english", "hindi", "spanish"],"age":26, "totalExp":3});
+db.employees.insert({"name":"Jenny","dept":"HR","languages":["english", "hindi", "spanish"],"age":25, "totalExp":3});
+db.employees.insert({"name":"Jay","dept":"HR","languages":["english", "hindi", "spanish"],"age":25, "totalExp":1});
+
+query
+
+1. match match document (like sql clase)   //match tex ne search karva  //sting ne mach kare
+db.employees.aggregate([{$match:{dept:"Admin"}}])  // same dept find
+
+o/p  { "_id" : ObjectId("624e6d33fdd1bb4940b137a4"), "name" : "Adma", "dept" : "Admin", "languages" : [ "german", "french", "english", "hindi" ], "age" : 30, "totalExp" : 10 }
+{ "_id" : ObjectId("624e6d33fdd1bb4940b137a5"), "name" : "Anna", "dept" : "Admin", "languages" : [ "english", "hindi" ], "age" : 35, "totalExp" : 11 }
+
+db.employees.find()
+
+2.project : use to populate spec field    //   specific column select karva
+
+db.employees.aggregate({$project:{"_id":0,"name":1}})  // data show where id=null
+
+o/p  { "name" : "Adma" }
+{ "name" : "Anna" }
+{ "name" : "Bob" }
+{ "name" : "Cathy" }
+{ "name" : "Mike" }
+{ "name" : "Jenny" }
+
+
+3.
+db.employees.aggregate([{$group:{"_id":"$dept"}}])   // create group id&dept
+o/p { "_id" : "HR" }
+{ "_id" : "Facilities" }
+{ "_id" : "Admin" }
+
+db.employees.aggregate([{$group:{"_id":null,"totleAge":{$sum:"$age"}}}])   // group banavse  // id=null where totle of age
+
+o/p { "_id" : null, "totleAge" : 183 }
+
+4. 
+db.employees.aggregate([{$group:{"_id":"$dept","noOfDept":{$sum:1}}}])  // count same dept
+
+o/p { "_id" : "HR", "noOfDept" : 2 }
+{ "_id" : "Facilities", "noOfDept" : 2 }
+{ "_id" : "Admin", "noOfDept" : 2 }
+
+5.
+db.employees.aggregate([{$group:{"_id":"dept","noOfEmployee":{$sum:1},"avgExp:":{$avg:"$totalExp"}}}])
+
+o/p { "_id" : "dept", "noOfEmployee" : 6, "avgExp:" : 7.5 }
+
+6. 
+db.employees.aggregate([{$group:{"_id":"dept","noOfEmployee":{$sum:1},"minExp":{$min:"$totalExp"}}}])
+
+o/p { "_id" : "dept", "noOfEmployee" : 6, "minExp" : 3 }
+
+7.
+db.employees.aggregate([{$match:{dept:"Admin"}},{$group:{"_id":"$dept","noOfEmployee":{$sum:1},"maxExp":{$max:"$totalExp"}}}])
+
+o/p { "_id" : "Admin", "noOfEmployee" : 2, "maxExp" : 11 }
+
+8.
+db.employees.aggregate([{$group:{"_id":"$dept","last":{$last:"$name"},"first":{$first:"$name"}}}])
+
+o/p  { "_id" : "HR", "last" : "Jenny", "first" : "Mike" }
+{ "_id" : "Facilities", "last" : "Cathy", "first" : "Bob" }
+{ "_id" : "Admin", "last" : "Anna", "first" : "Adma" }
+
+9.
+
+db.employees.aggregate()
+
+10.
+db.employees.aggregate([{$group:{"_id":"$dept","noOfEmployee":{$sum:1},"maxExp":{$max:"$totalExp"},"minExp":{$min:"$totalExp"}}}])
+
+o/p { "_id" : "HR", "noOfEmployee" : 2, "maxExp" : 3, "minExp" : 3 }
+{ "_id" : "Facilities", "noOfEmployee" : 2, "maxExp" : 14, "minExp" : 4 }
+{ "_id" : "Admin", "noOfEmployee" : 2, "maxExp" : 11, "minExp" : 10 }
+
+11.
+db.employees.aggregate([{$group:{"_id":"dept","arrPush":{$push:"$age"}}}])   // arrPush  array banavse repit pan avse
+
+db.employees.aggregate([{$group:{"_id":"$dept","arrPush":{$push:"$age"},"arrSet":{$addToSet:"$age"}}}])   // arSet  array banavse repit nahi ave
+
+o/p  { "_id" : "HR", "arrPush" : [ 26, 25 ], "arrSet" : [ 25, 26 ] }
+{ "_id" : "Facilities", "arrPush" : [ 36, 31 ], "arrSet" : [ 31, 36 ] }
+{ "_id" : "Admin", "arrPush" : [ 30, 35 ], "arrSet" : [ 35, 30 ] }
+
+12.
+db.employees.aggregate([{$match:{"name":"Adma"}},{$unwind:"$languages"}])   // $unwind  array divide
+
+o/p { "_id" : ObjectId("624e6d33fdd1bb4940b137a4"), "name" : "Adma", "dept" : "Admin", "languages" : "german", "age" : 30, "totalExp" : 10 }
+{ "_id" : ObjectId("624e6d33fdd1bb4940b137a4"), "name" : "Adma", "dept" : "Admin", "languages" : "french", "age" : 30, "totalExp" : 10 }
+{ "_id" : ObjectId("624e6d33fdd1bb4940b137a4"), "name" : "Adma", "dept" : "Admin", "languages" : "english", "age" : 30, "totalExp" : 10 }
+{ "_id" : ObjectId("624e6d33fdd1bb4940b137a4"), "name" : "Adma", "dept" : "Admin", "languages" : "hindi", "age" : 30, "totalExp" : 10 }
+
+13.
+db.employees.aggregate([{$match:{"dept":"Admin"}},{$project:{"name":1,"dept":1}},{$sort:{name:1}}])
+
+o/p { "_id" : ObjectId("624e6d33fdd1bb4940b137a4"), "name" : "Adma", "dept" : "Admin" }
+{ "_id" : ObjectId("624e6d33fdd1bb4940b137a5"), "name" : "Anna", "dept" : "Admin" }
+
+14.
+db.employees.aggregate([{$match:{"dept":"Admin"}},{$project:{"name":1,"dept":1}},{$sort:{name:-1}},{$skip:1}])
+
+o/p  { "_id" : ObjectId("624e6d33fdd1bb4940b137a4"), "name" : "Adma", "dept" : "Admin" }
+
+15.
+db.employees.aggregate([{$match:{"dept":"Admin"}},{$project:{"name":1,"dept":1}},{$sort:{name:-1}},{$limit:1}])
+
+o/p { "_id" : ObjectId("624e6d33fdd1bb4940b137a5"), "name" : "Anna", "dept" : "Admin" }
+
+
+-----------------------------------------------------------
+index   : 
+--------------------------------------------
+
+db.peaks.insertMany([
+    {
+        "name": "Everest",
+        "height": 8848,
+        "location": ["Nepal", "China"],
+        "ascents": {
+            "first": {
+                "year": 1953
+            },
+            "first_winter": {
+                "year": 1980
+            },
+            "total": 5656
+        }
+    },
+    {
+        "name": "K2",
+        "height": 8611,
+        "location": ["Pakistan", "China"],
+        "ascents": {
+            "first": {
+                "year": 1954
+            },
+            "first_winter": {
+                "year": 1921
+            },
+            "total": 306
+        }
+    },
+    {
+        "name": "Kangchenjunga",
+        "height": 8586,
+        "location": ["Nepal", "India"],
+        "ascents": {
+            "first": {
+                "year": 1955
+            },
+            "first_winter": {
+                "year": 1986
+            },
+            "total": 283
+        }
+    },
+    {
+        "name": "Lhotse",
+        "height": 8516,
+        "location": ["Nepal", "China"],
+        "ascents": {
+            "first": {
+                "year": 1956
+            },
+            "first_winter": {
+                "year": 1988
+            },
+            "total": 461
+        }
+    },
+    {
+        "name": "Makalu",
+        "height": 8485,
+        "location": ["China", "Nepal"],
+        "ascents": {
+            "first": {
+                "year": 1955
+            },
+            "first_winter": {
+                "year": 2009
+            },
+            "total": 361
+        }
+    }
+])
+
+query
+
+1. display the pc details
+db.peaks.find({"height":{$gt:8700}}).explain("executionStats")  // peaks collaction name
+
+2. create a single index
+db.peaks.createIndex({"height":1})
+
+3.  index history  show
+db.peaks.getIndexes()
+
+
+
+
+
+
+---------------------------------------------
+day 4
+------------------------------------------
+
+db.Books.insertMany([
+{_id:1,bookId:"b101",bookTitle:"The Secret 1",authors:["Rhonda Byrne"],publicationYear:2006,publisher:"Atria Publishing Group",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150},{OrderedId:"o104", orderDate:new Date("2020-02-14"), customerName:"Darshan", price:1000,
+quantityOrdered:1, discount:100}]},
+{_id:2,bookId:"b102",bookTitle:"The Secret 2",authors:["Rhonda Byrne","Bob Proctor"],publicationYear:2006,publisher:"Atria Publishing Group",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150}]},
+{_id:3,bookId:"b103",bookTitle:"The Secret 3",authors:["Rhonda Byrne","Esther Hicks"],publicationYear:2006,publisher:"Atria Publishing Group",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150},{OrderedId:"o104", orderDate:new Date("2020-02-14"), customerName:"Darshan", price:1000,
+quantityOrdered:1, discount:100}]},
+{_id:4,bookId:"b104",bookTitle:"The Secret 4",authors:["Rhonda Byrne","Bob Proctor"],publicationYear:2006,publisher:"Beyond Words Publishing",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150}]},
+{_id:5,bookId:"b105",bookTitle:"The Secret 5",authors:["Rhonda Byrne"],publicationYear:2006,publisher:"Atria Publishing Group",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50}]},
+{_id:6,bookId:"b106",bookTitle:"The Secret 6",authors:["Rhonda Byrne","EstherHicks","Esther Hicks"],publicationYear:2006,publisher:"Beyond Words Publishing",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150}]},
+{_id:7,bookId:"b107",bookTitle:"The Secret 7",authors:["Rhonda Byrne","BobProctor","Esther Hicks"],publicationYear:2006,publisher:"Atria Publishing Group",
+orders:[{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150},{OrderedId:"o104", orderDate:new Date("2020-02-14"), customerName:"Darshan", price:1000,
+quantityOrdered:1, discount:100}]},
+{_id:8,bookId:"b108",bookTitle:"The Secret 8",authors:["Rhonda Byrne"],publicationYear:2006,publisher:"Beyond Words Publishing",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150}]},
+{_id:9,bookId:"b109",bookTitle:"The Secret 9",authors:["Rhonda Byrne","Esther Hicks"],publicationYear:2006,publisher:"Atria Publishing Group",
+orders:[{OrderedId:"o101", orderDate:new Date("2020-02-11"), customerName:"Jainam", price:1000,
+quantityOrdered:1, discount:100},{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o104", orderDate:new Date("2020-02-14"), customerName:"Darshan", price:1000,
+quantityOrdered:1, discount:100}]},
+{_id:10,bookId:"b110",bookTitle:"The Secret 10",authors:["Rhonda Byrne","BobProctor","Esther Hicks"],publicationYear:2006,publisher:"Beyond Words Publishing",
+orders:[{OrderedId:"o102", orderDate:new Date("2020-02-12"), customerName:"Rahil", price:1000,
+quantityOrdered:2, discount:50},{OrderedId:"o103", orderDate:new Date("2020-02-13"), customerName:"Gautam", price:1000,
+quantityOrdered:2, discount:150},{OrderedId:"o104", orderDate:new Date("2020-02-14"), customerName:"Darshan", price:1000,
+quantityOrdered:1, discount:100}]},
+])
+
+
+query
+
+1.Update the title of a particular book. 
+db.Books.update({_id:10},{$set:{bookTitle:"The Secret 101"}},upsert:true})
+
+
+db.Books.update({_id:10},{$set:{publisher:"Beyond Words Publishing1"}})
+db.Books.update({_id:10},{$set:{publisher:"Beyond Words Publishing1"}},{upsert:true})   // {upsert:true}) check visible 
+
+
+2.
+db.Books.find({_id:10},{bookId:1,bookTitle:1,publicationYear:1})
+
+3.display all the book having less than 3 autors and sort by book name
+db.Books.aggregate({$project:{number_authors:{$size:"$authors"},bookTitle:1}},{$out:"number_of_autors"})   // create the new number_of_autors name table
+
+ db.number_of_autors.find()
+ o/p
+{ "_id" : 1, "bookTitle" : "The Secret 1", "number_of_autors" : 1 }
+{ "_id" : 2, "bookTitle" : "The Secret 2", "number_of_autors" : 2 }
+{ "_id" : 3, "bookTitle" : "The Secret 3", "number_of_autors" : 2 }
+{ "_id" : 4, "bookTitle" : "The Secret 4", "number_of_autors" : 2 }
+{ "_id" : 5, "bookTitle" : "The Secret 5", "number_of_autors" : 1 }
+{ "_id" : 6, "bookTitle" : "The Secret 6", "number_of_autors" : 3 }
+{ "_id" : 7, "bookTitle" : "The Secret 7", "number_of_autors" : 3 }
+{ "_id" : 8, "bookTitle" : "The Secret 8", "number_of_autors" : 1 }
+{ "_id" : 9, "bookTitle" : "The Secret 9", "number_of_autors" : 2 }
+{ "_id" : 10, "bookTitle" : "The Secret 10", "number_of_autors" : 3 }
+
+db.number_of_autors.find({number_of_autors:{$lt:3}}).sort({bookTitle:1})
+o/p
+{ "_id" : 1, "bookTitle" : "The Secret 1", "number_of_autors" : 1 }
+{ "_id" : 2, "bookTitle" : "The Secret 2", "number_of_autors" : 2 }
+{ "_id" : 3, "bookTitle" : "The Secret 3", "number_of_autors" : 2 }
+{ "_id" : 4, "bookTitle" : "The Secret 4", "number_of_autors" : 2 }
+{ "_id" : 5, "bookTitle" : "The Secret 5", "number_of_autors" : 1 }
+{ "_id" : 8, "bookTitle" : "The Secret 8", "number_of_autors" : 1 }
+{ "_id" : 9, "bookTitle" : "The Secret 9", "number_of_autors" : 2 }
+
+4.
+db.Books.aggregate({$group:{_id:"$publisher",total_books:{$sum:1}}})
+o/p
+{ "_id" : "Beyond Words Publishing", "total_books" : 3 }
+{ "_id" : "Beyond Words Publishing1", "total_books" : 1 }
+{ "_id" : "Atria Publishing Group", "total_books" : 6 }

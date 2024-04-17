@@ -1,0 +1,116 @@
+for map function
+> var map=function(){emit(this.CustID,this.AccBal);}
+
+-----------
+for reduce function
+> var reduce=function(key,values){return Array.sum(values);}
+
+----------
+to execute the query you have to write the mapReduce function, for it you have to write the following code:
+
+db.Customers.mapReduce(map,reduce,{out:"Customers_Totals"})
+db.Customers_Totals.find().pretty()
+
+------------
+db.Customers.mapReduce(map,reduce,{out:"Customers_Totals",query:{AccType:"S"}})
+
+___________________________________________
+
+> var map = function(){emit(this.userId,1);}
+
+> var reduce = function(userId, count){return Array.sum(count);}
+
+> db.Blogs.mapReduce(map,reduce,{out:"total_post"});
+
+> db.total_post.find().pretty()
+
+----------
+> db.Blogs.mapReduce(map,reduce,{out:"total_post",query:{status:"Active"}});
+
+----------
+> db.total_post.find().pretty()
+
+
+__________________________________________________
+
+> var map = function(){emit(this.RestaurantId,this.Rating);}
+> var reduce = function(key,values){return Array.avg(values);}
+> db.Restaurants.mapReduce(map,reduce,{out:"Avg_Rating"})
+
+______________________________________
+> var map = function(){emit(this.HotelId,this.HotelType);}
+> var reduce = function(key,values){return Array.avg(values);}
+> db.HotelBookings.mapReduce(map,reduce,{out:"Avg_HotelType"})
+> db.Avg_HotelType.find({"value":{$in:["5 Star"]}})
+
+________________________________________
+> var map = function(){emit(this._id,this.salary);}
+> var reduce = function(key,values){return Array.avg(values);}
+> db.Restaurants.mapReduce(map,reduce,{out:"Avg_Salary"})
+
+________________________________________
+> var map = function(){emit(this.Cust_id,this.Price);}
+> var reduce = function(keyCustId,valuePrice){return Array.sum(valuePrice);}
+> db.Orders.mapReduce(map,reduce,{out:"Total_Price",query:{Status:"A"}})
+
+-----------------
+> var map = function(){
+	for(var i = 0;i<this.Items.length;i++){
+		var key = this.Items[i].sku;
+		var value = {count:1,qty:this.Items[i].qty};
+		emit(key,value);
+	}
+}
+-----
+> var reduce = function(keysku,countqty){
+	reduceval={count:0,qty:0};
+	for(var i = 0;i<countqty.length;i++){
+		reduceval.count = reduceval.count+countqty[i].count;
+		reduceval.qty = reduceval.qty+countqty[i].qty;
+	}
+	return reduceval;
+}
+> db.Orders.mapReduce(map,reduce,{out:"example_Orders",query:{Status:"A"}})
+------------------------
+
+> var map = function(){
+	for(var i = 0;i<this.Items.length;i++){
+		var key = this.Items[i].sku;
+		var value = {no_of_time_ordered:1,qty:this.Items[i].qty,price:this.Items[i].price};
+		emit(key,value);
+	}
+}
+
+> var reduce = function(key_obj,count_obj){
+	reduceval={no_of_time_ordered:0,qty:0,price:0};
+	for(var i = 0;i<count_obj.length;i++){
+		reduceval.no_of_time_ordered+-count_obj[i].no_of_time_ordered;
+		reduceval.qty += count_obj[i].qty;
+		reduceval.price+= count_obj[i].qty*count_obj[i].price;
+	}
+	return reduceval;
+}
+
+> db.Orders.mapReduce(map,reduce,{out:"total_price",query:{Status:"A"}});
+
+________________________________
+
+
+> var map = function(){
+	for(var i = 0;i<this.orders.length;i++){
+		var key = this.orders[i].orderDate;
+		var value = {count:1,quantityOrdered:this.orders[i].quantityOrdered};
+		emit(key,value);
+	}
+}
+
+> var reduce = function(key_obj,count_obj){
+	reduceval={count:0,quantityOrdered:0};
+	for(var i = 0;i<count_obj.length;i++){
+		reduceval.count+=count_obj[i].count;
+		reduceval.quantityOrdered += count_obj[i].quantityOrdered;
+	}
+	return reduceval;
+}
+
+> db.Books.mapReduce(map,reduce,{out:"books_by_date"})

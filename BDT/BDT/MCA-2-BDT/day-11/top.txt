@@ -1,0 +1,43 @@
+emp_data = LOAD 'hdfs://localhost:9000/emp/emp.txt' USING PigStorage(',') as (id:int, name:chararray, age:int, city:chararray);
+
+ord = order emp_data by age;
+(12,Kelly,22,Chennai)
+(7,Robert,22,newyork )
+(6,Maggy,22,Chennai )
+(1,Robin,22,newyork )
+(8,Syam,23,Kolkata )
+(5,David,23,Bhuwaneshwar )
+(3,Maya,23,Tokyo )
+(2,BOB,23,Kolkata )
+(11,Stacy,25,Bhuwaneshwar )
+(10,Saran,25,London )
+(9,Mary,25,Tokyo )
+(4,Sara,25,London )
+-------------------
+emp_group = Group emp_data BY age;
+-------------------
+
+ data_top = FOREACH emp_group { 
+   top = TOP(2, 0, emp_data); 
+   GENERATE top; 
+}
+
+Dump data_top;
+
+({(7,Robert,22,newyork ),(12,Kelly,22,Chennai)})
+({(5,David,23,Bhuwaneshwar ),(8,Syam,23,Kolkata )})
+({(10,Saran,25,London ),(11,Stacy,25,Bhuwaneshwar )})
+-------------------
+data_top = FOREACH emp_group { 
+   top = TOP(1, 0, emp_data); 
+   GENERATE top; 
+}
+({(12,Kelly,22,Chennai)})
+({(8,Syam,23,Kolkata )})
+({(11,Stacy,25,Bhuwaneshwar )})
+-------------------
+Dump data_top;
+
+({(7,Robert,22,newyork ),(12,Kelly,22,Chennai)})
+({(5,David,23,Bhuwaneshwar ),(8,Syam,23,Kolkata )})
+({(10,Saran,25,London ),(11,Stacy,25,Bhuwaneshwar )})

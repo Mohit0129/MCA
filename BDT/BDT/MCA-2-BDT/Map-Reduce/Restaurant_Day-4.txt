@@ -1,0 +1,137 @@
+------------------------------
+
+db.Restaurants.insert({
+        "_id" : 1,
+        "RestaurantId" : 1,
+        "RestaurantName" : "Mirch Masala",
+        "Grades" : [
+                "A",
+                "A+"
+        ],
+        "Cuisine" : "Kitchen King",
+        "Address" : [
+                {
+                        "BuildingName" : "Himalaya",
+                        "Street" : "Vastrapur",
+                        "Area" : "Vastrapur Lake",
+                        "City" : "Ahmedabad",
+                        "ZipCode" : 380052
+                }
+        ],
+        "DateofEstablishment" : "2024-11-26",
+        "Score" : 90,
+        "Rating" : 4.9
+})
+db.Restaurants.insert({
+        "_id" :2,
+        "RestaurantId" : 2,
+        "RestaurantName" : "Jassi De Parathe",
+        "Grades" : [
+                "A"
+        ],
+        "Cuisine" : "Kitchen Masala",
+        "Address" : [
+                {
+                        "BuildingName" : "Sarkhej",
+                        "Street" : "Maninagar",
+                        "Area" : "Kankaria Lake",
+                        "City" : "Ahmedabad",
+                        "ZipCode" : 380052
+                }
+        ],
+        "DateofEstablishment" : "2001-11-26",
+        "Score" : 40,
+        "Rating" : 3.9
+})
+db.Restaurants.insert({
+        "_id" :3,
+        "RestaurantId" : 1,
+        "RestaurantName" : "Nini's Kitchen",
+        "Grades" : [
+                "A"
+        ],
+        "Cuisine" : "Multi Cuisine",
+        "Address" : [
+                {
+                        "BuildingName" : "Saket-II",
+                        "Street" : "Abc",
+                        "Area" : "Science City",
+                        "City" : "Baroda",
+                        "ZipCode" : 380051
+                }
+        ],
+        "DateofEstablishment" : "2001-11-26",
+        "Score" : 40,
+        "Rating" : 3.9
+})
+db.Restaurants.insert({
+        "_id" : 4,
+        "RestaurantId" : 2,
+        "RestaurantName" : "Barbeque Nation",
+        "Grades" : [
+                "C"
+        ],
+        "Cuisine" : "Multi Cuisine",
+        "Address" : [
+                {
+                        "BuildingName" : "Memnagar",
+                        "Street" : "Maninagar",
+                        "Area" : "Iskon",
+                        "City" : "Surat",
+                        "ZipCode" : 380052
+                }
+        ],
+        "DateofEstablishment" : "2001-11-26",
+        "Score" : 40,
+        "Rating" : 3.9
+})
+db.Restaurants.insert({
+        "_id" : 5,
+        "RestaurantId" : 3,
+        "RestaurantName" : "Nini's Kitchen",
+        "Grades" : [
+                "A"
+        ],
+        "Cuisine" : "Multi Cuisine",
+        "Address" : [
+                {
+                        "BuildingName" : "Saket-II",
+                        "Street" : "Abc",
+                        "Area" : "Science City",
+                        "City" : "Baroda",
+                        "ZipCode" : 380051
+                }
+        ],
+        "DateofEstablishment" : "2001-11-26",
+        "Score" : 40,
+        "Rating" : 3.9
+})
+
+db.Restaurants.insert({
+        _id : 6,
+        "RestaurantId" : 1,
+        "RestaurantName" : "Mirch Masala",
+        "Grades" : [
+                "A",
+                "A+"
+        ],
+        "Cuisine" : "Kitchen King",
+        "Address" : [
+                {
+                        "BuildingName" : "Himalaya",
+                        "Street" : "Vastrapur",
+                        "Area" : "Vastrapur Lake",
+                        "City" : "Ahmedabad",
+                        "ZipCode" : 380052
+                }
+        ],
+        "DateofEstablishment" : "2024-11-26",
+        "Score" : 90,
+        "Rating" : 5.9
+})
+------------------------------
+
+
+> db.Restaurants.find().pretty()
+
+

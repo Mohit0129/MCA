@@ -1,0 +1,15 @@
+use Book page
+book1 = {name:"Understanding JAVA",Author:"Pradip Dey", quantity:2,price:305, pages:100}
+db.books.save(book1)
+
+book2 = {name:"Understanding JSON",Author:"Seema Acharya", quantity:5, price:550, pages:200}
+db.books.save(book2)
+
+book = {name:"Understanding XML",Author:"", quantity:2, price305, pages:300}
+db.books.save(book)
+
+book = {name:"Understanding Web Services", pages:400}
+db.books.save(book)
+
+book = {name:"Understanding Axis2", pages:150}
+db.books.save(book)

@@ -1,0 +1,118 @@
+db.employees.insertMany([
+    { 
+        _id:1,
+        firstName: "John",
+        lastName: "King",
+        email: "john.king@abc.com",
+        salary: 5000,
+        skills: [ "Angular", "React", "MongoDB" ]
+    },
+    { 
+        _id:2,
+        firstName: "Sachin",
+        lastName: "T",
+        email: "sachin.t@abc.com",
+        salary: 8000,
+        skills: [ "Accounting", "Tax" ]
+    },
+    { 
+        _id:3,
+        firstName: "James",
+        lastName: "Bond",
+        email: "jamesb@abc.com",
+        salary: 7500,
+        skills: [ "Sales", "Marketing" ]
+    },
+    { 
+        _id:4,
+        firstName: "Steve",
+        lastName: "J",
+        email: "steve.j@abc.com",
+        salary: 7000,
+        skills: [ "Mac", "Marketing", "Product Design" ]
+    },
+    { 
+        _id:5,
+        firstName: "Kapil",
+        lastName: "D",
+        email: "kapil.d@abc.com",
+        salary: 4500,
+        skills: [ "Accounting", "Tax", "Sales" ]
+    },
+    { 
+        _id:6,
+        firstName: "Amitabh",
+        lastName: "B",
+        email: "amitabh.b@abc.com",
+        salary: 7000,
+        skills: [ "Marketing", "Tax"]
+    }
+])
+The $set operator overwrites the specified array instead of adding, removing, and updating array elements.
+db.employees.updateMany({_id:5},{$set:{ skills:["Sales Tax"]}})
+---------------------------------------------------
+
+Use the array operators to update single or multiple elements of arrays in MongoDB.
+
+The following will update "Marketing" to "Public Speaking" 
+in the skills array field to all the documents.
+
+db.employees.updateMany(
+    {skills:"Marketing"},
+    {$set:{"skills.$":"Public Speaking"}})
+	
+In the above example, {skills:"Marketing"} specifies the criteria to find all the
+documents where the skills array contains "Marketing" element.
+
+Second parameter {$set:{"skills.$":"Public Speaking"}}) specifies the value to
+update using $set operator. The {"skills.$":"Public Speaking"} 
+specifies to update element to "Public Speaking". 
+
+The $ is an array operator that acts as a placeholder 
+for the first match of the update query document.
+
+
+
+---------------------------------
+Add New Element to Arrays
+
+db.employees.updateMany(
+    {},
+    {$push:{"skills":"Sports"}}) // add "Sports" to all arrays
+
+db.employees.updateMany(
+    {_id:3},
+    {$push:{"skills":"Sports_Cricket"}}) // add "Sports" element to skills array where _id:3
+	
+	
+	Use the $each operator to specify multiple elements that needs to be added in the arrays.
+	
+	db.employees.updateMany(
+    {}, 
+    {$push:{"skills":{$each:["Sports","Acting"]}}}) // adds "Sports" and "Acting" to all arrays
+	
+	
+Use $addToSet operator to add an element if it does not already exist.
+The following will add "GST" to skills array in all documents if it does 
+not exist.
+
+db.employees.updateMany(
+    {},
+    { $addToSet: {"skills":"GST"} }) // adds "GST"to all arrays if not exist
+	
+	---------------------------------------
+	Remove First or Last Element from Arrays
+	
+	Use the $pop operator to remove first or last element from arrays. Specify 1 to remove the last element and -1 to remove the first element.
+	
+	db.employees.updateMany(
+    {},
+    {$pop:{"skills":1}}) // removes the last element
+
+db.employees.updateMany(
+    {},
+    {$pop:{"skills":-1}}) //removes the first element
+
+db.employees.updateMany( 
+    {}, 
+    {$pull: { "skills": "GST" }}) // removes "GST" 

@@ -1,0 +1,39 @@
+Q-1 
+ Create a MyDb database with a collection called “HotelBookings”,
+ containing documents with some or all of the following 
+ fields: HotelId, HotelName,
+ HotelType(Note: An array is expected, Example: 1 Star, 2 Star etc.),
+ TotNoOfRooms, CityName, and 
+ DateOfRegistration (Note: Use Proper Date format), 
+ ContactNumber, 
+ Ratings, 
+ Owners (containing fields: OwnerName)  and
+ Bookings (containing fields:BookingId, BookingDate, 
+			RoomType (Note: An array is expected, Example: Deluxe, Double,Twin etc.), 
+			CustomerName, NoOfRoomsBooked, Price, Discount) .
+
+			
+Perform the following operations on the database. (Insert at least 5 documents) 
+ 
+1.	Display only the HotelName’s, where TotNoOfRooms is greater than 35.
+
+2.	Find HotelName and CityName, where HotelId is either “HOT0395” or “HOT2659”.
+
+3.	Display the HotelName’s and DateOfRegistration of hotels, whose TotNoOfRooms is greater than 30 and less than 45.
+
+4.	Modify HotelType of hotel with HotelId: “HOT3951”.
+
+5.	Add a field called “History”, which describes the hotel for documents with HotelId, “HOT2156”, “HOT3951” and “HOT3654”.
+
+7.	Find those documents where the HotelType is not “4 Star”.
+
+8.	Display only the HotelName and DateOfRegistration where HotelName begins with letter “S”.
+
+9.	Display HotelName and ContactNumber in the descending order of the HotelName’s.
+
+10.	Find those hotels where number of owners is 3.
+
+
+11.	Add an owner “Mr. Mathur” in the list of owners in the document whose HotelId is “HOT0395”.
+
+12.	Create an index on HotelId.

@@ -1,0 +1,28 @@
+---to leave safe mode---
+hdfs dfsadmin -safemode leave
+
+C:\hadoop-2.9.2\sbin>hdfs dfs -ls /
+'C:\Program' is not recognized as an internal or external command,
+operable program or batch file.
+Found 3 items
+drwxr-xr-x   - Administrator supergroup          0 2022-03-11 10:03 /pig_data
+drwxr-xr-x   - Administrator supergroup          0 2022-03-11 09:57 /sample1
+drwxr-xr-x   - Administrator supergroup          0 2022-03-11 10:07 /tmp
+
+C:\hadoop-2.9.2\sbin>hdfs dfs -copyFromLocal C:\Emp\Emp.txt /Emp
+'C:\Program' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\hadoop-2.9.2\sbin>hdfs dfs -copyFromLocal C:\Emp\Emp.txt /Emp
+'C:\Program' is not recognized as an internal or external command,
+operable program or batch file.
+copyFromLocal: `/Mohit': File exists
+
+C:\hadoop-2.9.2\sbin>hdfs dfs -ls /
+'C:\Program' is not recognized as an internal or external command,
+operable program or batch file.
+Found 4 items
+-rw-r--r--   1 Administrator supergroup          0 2024-04-01 10:39 /Mohit
+drwxr-xr-x   - Administrator supergroup          0 2022-03-11 10:03 /pig_data
+drwxr-xr-x   - Administrator supergroup          0 2022-03-11 09:57 /sample1
+drwxr-xr-x   - Administrator supergroup          0 2022-03-11 10:07 /tmp

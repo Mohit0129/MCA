@@ -1,0 +1,36 @@
+Map-Reduce for document within document
+
+------------------------------------------------------------
+db.Orders.insert(
+ { _id:1,
+   Cust_id:"Aishwarya",  
+   Ord_date: new Date("2021-06-23"),
+   Price:50,
+   Items:[{ sku:"bananas",qty:10,price:2.00},
+          { sku:"apples",qty:6,price:10.00},
+          { sku:"Orange",qty:12,price:3.00}],
+   Status:"A"
+  }
+  )
+   --------------
+db.Orders.insert(
+ { _id:2,
+   Cust_id:"Abhishek",  
+   Ord_date: new Date("2021-04-25"),
+   Price:50,
+   Items:[{ sku:"bananas",qty:8,price:2.00},
+          { sku:"Papaya",qty:5,price:10.00},
+	      { sku:"Orange",qty:4,price:5.00}],
+   Status:"A"})
+db.Orders.insert(
+ { _id:3,
+   Cust_id:"Abhishek",  
+   Ord_date: new Date("2021-04-25"),
+   Price:50,
+   Items:[{ sku:"bananas",qty:2,price:2.00},
+          { sku:"Papaya",qty:15,price:10.00}],
+   Status:"A"})
+
+Q.1 To find total Price per customer
+
+Q.2 To calculate total orders and total quantity per item

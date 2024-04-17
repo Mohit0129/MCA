@@ -1,0 +1,110 @@
+db.employees.insert({"name":"Adma","dept":"Admin","languages":["german","french","english","hindi"],"age":30, "totalExp":10});
+db.employees.insert({"name":"Anna","dept":"Admin","languages":["english","hindi"],"age":35, "totalExp":11});
+db.employees.insert({"name":"Bob","dept":"Facilities","languages":["english","hindi"],"age":36, "totalExp":14});
+db.employees.insert({"name":"Cathy","dept":"Facilities","languages":["hindi"],"age":31, "totalExp":4});
+db.employees.insert({"name":"Mike","dept":"HR","languages":["english", "hindi", "spanish"],"age":26, "totalExp":3});
+db.employees.insert({"name":"Jenny","dept":"HR","languages":["english", "hindi", "spanish"],"age":25, "totalExp":3});
+db.employees.insert({"name":"Jerry","dept":"HR","languages":["english", "Sanskrit", "spanish"],"age":25, "totalExp":1});
+
+
+
+
+---------------------
+1. Match: Used to match documents (like SQL where clause)
+
+db.employees.aggregate([{$match:{dept:"Admin"}}]);
+
+
+------------------
+2. Project: Used to populate specific field's value(s)
+
+project stage will include _id field automatically unless you specify to disable.
+
+db.employees.aggregate([{$match:{dept:"Admin"}}, {$project:{"name":1, "dept":1}}]);
+
+
+
+})
+
+
+
+
+
+------------------
+3. Group: $group is used to group documents by specific field, here documents are grouped by "dept" field's value. Another useful feature is that you can group by null, it means all documents will be aggregated into one.
+
+db.employees.aggregate([{$group:{"_id":"$dept"}}]); 
+db.employees.aggregate([{$group:{"_id":null, "totalAge":{$sum:"$age"}}}]);	
+----------------------
+4. Sum: $sum is used to count or sum the values inside a group.
+db.employees.aggregate([{$group:{"_id":"$dept", "noOfDept":{$sum:1}}}]);
+----------------------
+5. Average: Calculates average of specific field's value per group.
+db.employees.aggregate([{$group:{"_id":"$dept", "noOfEmployee":{$sum:1}, "avgExp":{$avg:"$totalExp"}}}]);
+----------------------
+6. Minimum: Finds minimum value of a field in each group.
+db.employees.aggregate([{$group:{"_id":"$dept", "noOfEmployee":{$sum:1}, "minExp":{$min:"$totalExp"}}}]);
+----------------------
+7. Maximum: Finds maximum value of a field in each group.
+
+db.employees.aggregate([{$match:{dept:"Admin"}},{$group:{"_id":"$dept", "noOfEmployee":{$sum:1}, "maxExp":{$max:"$totalExp"}}}]);
+----------------------
+8. Getting specific field's value from first and last document of each group: 
+Works well when doucument result is sorted.
+
+db.employees.aggregate([{$group:{"_id":"$dept", "last":{$last:"$name"}, "first":{$first:"$name"}}}]);
+----------------------
+9. Minumum with maximum:
+
+db.employees.aggregate([{$group:{"_id":"$dept", "noOfEmployee":{$sum:1}, "maxExp":{$max:"$totalExp"}, "minExp":{$min: "$totalExp"}}}]);
+----------------------
+10. Push and addToSet: Push adds a field's value form each document in group to 
+an array used to project data in array format, 
+addToSet is simlar to push but it omits duplicate values.
+
+db.employees.aggregate([{$group:{"_id":"dept", "arrPush":{$push:"$age"}, "arrSet": {$addToSet:"$age"}}}]);
+Output:
+{ "_id" : "dept", "arrPush" : [ 30, 35, 35, 35, 26, 25 ], "arrSet" : [ 25, 26, 35, 30 ] }
+
+
+-----------------------------
+11. Unwind: Used to create multiple in-memory documents for each value in the
+ specified array type field, then we can do further aggregation based on those 
+values.
+
+db.employees.aggregate([{$match:{"name":"Adma"}}, {$unwind:"$languages"}]);
+------------------------------
+12. Sorting:
+
+db.employees.aggregate([{$match:{dept:"Admin"}}, 
+{$project:{"name":1, "dept":1}}, {$sort: {name: 1}}]);
+------------------
+13. Skip:
+
+db.employees.aggregate([{$match:{dept:"Admin"}},
+{$project:{"name":1, "dept":1}}, {$sort: {name: -1}}, {$skip:1}]);
+------------------
+14. Limit:
+
+db.employees.aggregate([{$match:{dept:"Admin"}}, 
+{$project:{"name":1, "dept":1}}, {$sort: {name: -1}}, {$limit:1}]); 
+-------------------------
+15. Comparison operator in projection:
+db.employees.aggregate([{$match:{dept:"Admin"}}, 
+{$project:{"name":1, "dept":1, age: {$gt: ["$age", 30]}}}]);
+
+-------------------------
+16. Comparison operator in match:
+List of comparison operators: $cmp, $eq, $gt, $gte, $lt, $lte, and $ne
+
+db.employees.aggregate([{$match:{dept:"Admin", age: {$gt:30}}}, {$project:{"name":1, "dept":1}}]);   
+
+-------------------------
+7. Boolean aggregation opertor in projection:
+
+db.employees.aggregate([{$match:{dept:"Admin"}}, {$project:{"name":1, "dept":1, age: { $and: [ { $gt: [ "$age", 30 ] }, { $lt: [ "$age", 36 ] } ] }}}]);
+----------------------
+18. Boolean aggregation opertor in match:
+
+db.employees.aggregate([{$match:{dept:"Admin", $and: [{age: { $gt:  30 }}, {age: {$lt: 36 }} ] }}, {$project:{"name":1, "dept":1, age: { $and: [ { $gt: [ "$age", 30 ] }, { $lt: [ "$age", 36 ] } ] }}}]);  
+List of boolean aggregation opertors: $and, $or, and $not.

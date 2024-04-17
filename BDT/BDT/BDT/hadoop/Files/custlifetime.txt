@@ -1,0 +1,10 @@
+Jack 25000
+Smith 8000
+David 12000
+John 15000
+Scott 12000
+Lucy 28000
+Ajay 12000
+Vinay 30000
+Joseph 21000
+Joshi 2500

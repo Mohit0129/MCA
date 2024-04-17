@@ -1,0 +1,31 @@
+-list show 
+hdfs dfs -ls /
+_____________________________
+-open Folder
+hdfs dfs -ls /MOHIT
+_____________________________
+
+-open file
+hdfs dfs -cat /MOHIT/Mohit.txt
+_____________________________
+
+-copyFromlocal(import file in local)
+hdfs dfs -copyFromLocal c:\Mohit.txt /MOHIT
+__________________________________________________________
+
+-put(import file in local with out command)
+hdfs dfs -put d:\stud.txt /student
+__________________________________________________________
+
+-copyToLocal(export file in local)
+hdfs dfs -copyToLocal /MOHIT/Mohit.txt d:\
+__________________________________________________________
+
+-get(export file in local with get command) 
+hdfs dfs -get /MOHIT/Mohit.txt d:\LJMCA
+________________________________________________
+__________
+
+
+-put f
+hdfs dfs -put -f c:\procuct.txt /Abc

@@ -1,0 +1,89 @@
+String Functions & Description
+------------------------------------------
+001,Robin,22,newyork 
+002,BOB,23,Kolkata 
+003,Maya,23,Tokyo 
+004,Sara,25,London 
+005,David,23,Bhuwaneshwar 
+006,Maggy,22,Chennai 
+007,Robert,22,newyork 
+008,Syam,23,Kolkata 
+009,Mary,25,Tokyo 
+010,Saran,25,London 
+011,Stacy,25,Bhuwaneshwar 
+012,Kelly,22,Chennai
+----------------
+emp_data = LOAD 'hdfs://localhost:9000/emp/emp.txt' USING PigStorage(',') as (id:int, name:chararray, age:int, city:chararray);
+
+1 ENDSWITH(string, testAgainst)
+
+To verify whether a given string ends with a particular substring.
+emp_endswith = FOREACH emp_data GENERATE (id,name),ENDSWITH ( name, 'n' );
+----------------------------------------------------
+2	STARTSWITH(string, substring)
+Accepts two string parameters and verifies whether the first string starts with the second.
+
+startswith_data = FOREACH emp_data GENERATE (id,name), STARTSWITH (name,'Ro');
+
+----------------------------------------------------
+3	SUBSTRING(string, startIndex, stopIndex)
+Returns a substring from a given string.
+substring_data = FOREACH emp_data GENERATE (id,name), SUBSTRING (name, 0, 2);
+----------------------------------------------------
+
+4	EqualsIgnoreCase(string1, string2)
+To compare two stings ignoring the case.
+
+equals_data = FOREACH emp_data GENERATE (id,name), EqualsIgnoreCase(name, 'Robin');
+----------------------------------------------------
+5	INDEXOF(string, ‘character’, startIndex)
+Returns the first occurrence of a character in a string, searching forward from a start index.
+
+indexof_data = FOREACH emp_data GENERATE (id,name), INDEXOF(name, 'r',0);
+----------------------------------------------------
+6	LAST_INDEX_OF(expression)
+Returns the index of the last occurrence of a character in a string, searching backward from a start index.
+last_index_data = FOREACH emp_data GENERATE (id,name), LAST_INDEX_OF(name, 'g');
+----------------------------------------------------
+7	LCFIRST(expression)
+Converts the first character in a string to lower case.
+ Lcfirst_data = FOREACH emp_data GENERATE (id,name), LCFIRST(name);
+----------------------------------------------------
+8	UCFIRST(expression)
+Returns a string with the first character converted to upper case.
+
+ucfirst_data = FOREACH emp_data GENERATE (id,city), UCFIRST(city);
+----------------------------------------------------
+9	UPPER(expression)
+UPPER(expression) Returns a string converted to upper case.
+upper_data = FOREACH emp_data GENERATE (id,name), UPPER(name);
+----------------------------------------------------
+10	LOWER(expression)
+Converts all characters in a string to lower case.
+
+----------------------------------------------------
+11	REPLACE(string, ‘oldChar’, ‘newChar’);
+To replace existing characters in a string with new characters.
+replace_data = FOREACH emp_data GENERATE (id,city),REPLACE(city,'Bhuwaneshwar','Bhuw');
+----------------------------------------------------
+12	STRSPLIT(string, regex, limit)
+To split a string around matches of a given regular expression.
+strsplit_data = FOREACH emp_data GENERATE (id,name), STRSPLIT (name,'_',2);
+----------------------------------------------------
+13	STRSPLITTOBAG(string, regex, limit)
+Similar to the STRSPLIT() function, it splits the string by given delimiter and returns the result in a bag.
+ strsplittobag_data = FOREACH emp_data GENERATE (id,name), STRSPLITTOBAG (name,'_',2);
+
+---------------------------------------------------
+14	TRIM(expression)
+Returns a copy of a string with leading and trailing whitespaces removed.
+
+trim_data = FOREACH emp_data GENERATE (id,name), TRIM(name);
+---------------------------------------------------
+15	LTRIM(expression)
+Returns a copy of a string with leading whitespaces removed.
+ ltrim_data = FOREACH emp_data GENERATE (id,name), LTRIM(name);
+---------------------------------------------------
+16	RTRIM(expression)
+Returns a copy of a string with trailing whitespaces removed.
+rtrim_data = FOREACH emp_data GENERATE (id,name), RTRIM(name);

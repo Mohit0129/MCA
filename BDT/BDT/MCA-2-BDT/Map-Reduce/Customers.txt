@@ -1,0 +1,10 @@
+--Map Reduce--
+db.Customers.insert({CustID:"C123", AccBal:500, AccType:"S"})
+db.Customers.insert({CustID:"C123", AccBal:900, AccType:"S"})
+db.Customers.insert({CustID:"C123", AccBal:1500, AccType:"C"})
+db.Customers.insert({CustID:"C123", AccBal:1200, AccType:"S"})
+db.Customers.insert({CustID:"C111", AccBal:1200, AccType:"S"})
+db.Customers.insert({CustID:"C111", AccBal:1000, AccType:"C"})
+db.Customers.insert({CustID:"C111", AccBal:5000, AccType:"S"})
+db.Customers.insert({CustID:"C112", AccBal:5000, AccType:"S"})
+db.Customers.insert({CustID:"C112", AccBal:200, AccType:"S"})

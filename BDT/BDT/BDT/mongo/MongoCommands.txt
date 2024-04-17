@@ -1,0 +1,316 @@
+ db.stats()
+{
+        "db" : "test",
+        "collections" : 0,
+        "views" : 0,
+        "objects" : 0,
+        "avgObjSize" : 0,
+        "dataSize" : 0,
+        "storageSize" : 0,
+        "numExtents" : 0,
+        "indexes" : 0,
+        "indexSize" : 0,
+        "scaleFactor" : 1,
+        "fileSize" : 0,
+        "fsUsedSize" : 0,
+        "fsTotalSize" : 0,
+        "ok" : 1
+}
+
+> db.version()
+4.2.7
+
+show dbs
+LJMCA   0.000GB
+admin   0.000GB
+config  0.000GB
+lj      0.000GB
+local   0.000GB
+myDB    0.000GB
+test    0.000GB
+
+--to create database--
+> use LJMCA
+switched to db LJMCA
+
+> db.createCollection("LJMCA")
+{ "ok" : 1 }
+
+> show collections
+LJMCA
+LJSCA
+
+
+---------------------------movies------------------------------------
+
+> use Movie
+switched to db Movie
+> show collections
+MyMovie
+
+db.MyMovie.insert({name: "Salaar", actor:["Prabhas","Shruti","Xyz"], director: "Neel Prasad", vname: "Raj Nanda", budget: 150, rating: 0.1})
+
+> db.MyMovie.find()
+{ "_id" : ObjectId("65eddc34452f38474bc72a3e"), "name" : "Salaar", "actor" : [ "Prabhas", "Shruti", "Xyz" ], "director" : "Neel Prasad", "vname" : "Raj Nanda", "budget" : 150, "rating" : 0.1 }
+
+----------------teacher------------------------
+
+db.Teacher.insert({_id: 1,
+					Name: "Jinal",
+					Age:50,
+					Subject: ["c","ds","bdt","Adv java"],
+					dob: "03-dec-1974",
+					gender:"female",
+					salary:500000,
+					city:""
+					})
+					
+db.Teacher.insert({_id: 2,
+					Name: "Nilam",
+					Age:20,
+					Subject: ["c","ds"],
+					dob: "03-dec-2004",
+					gender:"female",
+					salary:40000,
+					city:"Ahmedabad"
+					})
+
+> db.Teacher.find().pretty()
+{
+        "_id" : 1,
+        "Name" : "Jinal",
+        "Age" : 50,
+        "Subject" : [
+                "c",
+                "ds",
+                "bdt",
+                "Adv java"
+        ],
+        "dob" : "03-dec-1974",
+        "gender" : "female",
+        "salary" : 500000,
+        "city" : "Ahmedabad"
+}
+
+-----to remove all data------
+> db.Teacher.remove({})
+WriteResult({ "nRemoved" : 2 })
+
+-- to drop the database
+db.dropDatabase()
+
+--to drop the table--
+db.table_name.drop()
+
+db.collection.insert({_id:5,Name: 'Ketan',Age:50,subject: ["R"],DOB: "Dec 1974, ",gender: "Male",salary: 150,city: "Niamey"})
+
+-------------------To enter single record-----------------------
+ db.posts.insertOne({title:"Post title 1",
+... body:"Body of post",
+... category:"News",
+... likes:1,
+... tags:["news","events"],
+... date:Date()
+... })
+
+-------------------To enter multiple record-----------------------
+db.posts.insertMany([{title:"Post title 2", body:"Body of post", category:"News", likes:5, tags:["news","events"], date:Date()},
+		{title:"Post title 3", body:"Body of post", category:"News", likes:3, tags:["news","events"], date:Date()},
+		{title:"Post title 4", body:"Body of post", category:"News", likes:7, tags:["news","events"], date:Date()},
+		{title:"Post title 5", body:"Body of post", category:"News", likes:9, tags:["news","events"], date:Date()},
+		{title:"Post title 6", body:"Body of post", category:"News", likes:2, tags:["news","events"], date:Date()},
+		{title:"Post title 7", body:"Body of post", category:"News", likes:3, tags:["news","events"], date:Date()},
+])
+
+-----------------operators------------------
+
+-------------to find greater than-------------
+> db.posts.find({likes:{$gt:7}}).pretty()
+
+-------------to find greater than and equals to-------------
+> db.posts.find({likes:{$gte:7}}).pretty()
+
+--and--
+db.Teacher.find({$and:[{subject:"Hindi"},{subject:"English"}]})
+
+--or--
+db.Teacher.find({$or:[{gender:"Male"},{subject:"English"}]},{name:1,subject:1,gender:1,_id:0})
+
+--and & gte--
+db.Teacher.find({$and:[{salary:{$gte:30000}},{gender:"Male"}]})
+
+----update the data or add if not exist----
+db.Teacher.update({name:"Anil"},{$set:{subject:"French"}})
+
+--update all---
+db.Teacher.updateMany({},{$set:{Address:"Maninagar"}})
+
+--increment--
+db.Teacher.update({gender:"Male"},{$inc:{age:1}})
+
+--decrement--
+db.Teacher.update({subject:"Hindi"},{$inc:{salary:-50}})
+
+--remove record--
+db.Teacher.remove({name:"Anil"})
+
+--to update multiple data--
+db.Teacher.updateOne({_id:3},{$set:{name:"Anil",age:48,subject:["Hindi","French"],DOB:"1999-08-25"}})
+
+--find and modify the data--
+ db.Teacher.findAndModify({query:{name:"Ram"},update:{$set:{department:"Development"}},upsert:true})
+
+----------to create index-----
+db.Student_Master.createIndex({rollno:1})
+
+-------to create index unique------
+db.Student_Master.createIndex({rollno:1},{name:"unique_index",unique:true})
+
+--------without any respective field---------
+db.Student_Master.find({},{_id:0})
+
+--------to update the column name ------
+db.Student_Master.updateMany({"doj":{$ne:null}},{$rename:{"doj":"dob"}})
+
+------add record without deleting the column's data--
+db.employees.update({firstName:"Kapil"},{$push:{"skills":"sports"}})
+
+---add to set---
+db.employees.updateMany({},{$addToSet:{"skills":"GST"}})
+
+---delete last data---
+db.employees.updateMany({},{$pop:{"skills":1}})
+
+------can delete from in-between---
+db.employees.updateMany({},{$pull:{"skills":"Mac"}})
+
+-----to find the specific word in the whole paragraph---
+db.Movie.find({synopsis:/Bilbo/})
+
+---to find--
+db.employees.find({firstName:{$regex:"J"}})
+
+----------To find specific title---  '^T' >> starting name   || $options >> to consider capital and small letter both
+db.Movie.find({title:{'$regex':'^T', '$options': 'i'}})
+
+---------To find specific title-- 'b$' >> ending name
+db.Movie.find({title:{'$regex':'b$'}})
+
+---------to count how many datasets are there----
+ db.Movie.count({year:"2009"})
+
+------to sort data in ascending--
+db.Movie.find().sort({year:1}).limit(6)
+
+-----to sort data in descending--
+ db.Movie.find().sort({year:-1}).limit(6)
+
+-------create a group and count sum---
+db.Customers.aggregate({$group:{_id:"$CustID",TotAccBal:{$sum:"$AccBal"}}})
+
+-------------
+db.Customers.aggregate({$group:{_id:"$CustID",AccBal:{$sum:"$AccBal"}}})
+
+-------------
+db.Customers.aggregate({$group:{_id:"$CustID",AvgBal:{$avg:"$AccBal"}}})
+
+--------------------
+db.Customers.aggregate({$group:{_id:"$CustID",maxBal:{$max:"$AccBal"}}})
+
+-------------
+db.Customers.aggregate({$match:{AccType:"S"}},{$group:{_id:"$CustID",TotAccBal:{$sum:"$AccBal"}}})
+
+--------show specific type---
+> db.Customers.aggregate({$match:{"AccType":"S"}})
+
+--------to find specific columns-----
+> db.Customers.aggregate({$match:{"AccType":"S"}},{$project:{_id:0}})
+-----------
+*****************db.Customers.aggregate({$group:{_id:null}})
+*****************db.Customers.aggregate(**count those id which are null
+
+
+
+
+
+
+_________________________________BOOKS___________________________
+-----------------------
+> db.Books.aggregate({$project:{BookId:1,bookTitle:1,publicationYear:1}})
+
+****************> db.Books.aggregate({$project:{number_of_authors:{$size:"$authors"},bookTitle:1}},{$out:"number_of_authors"})> db.Books.aggregate({$project:{number_of_authors:{$size:"$authors"},bookTitle:1}},{$out:"number_of_authors"})> db.Books.aggregate({$project:{number_of_authors:{$size:"$authors"},bookTitle:1}},{$out:"number_of_authors"})
+
+
+------------------------------to create group------
+db.employees.aggregate({$group:{_id:"$dept",Total:{$sum:1}}})
+
+---------------------
+ db.employees.aggregate({$match:{dept:"HR"}},{$group:{_id:"$dept",Total:{$sum:1}}})
+
+-----------------------
+> db.employees.aggregate({$project:{"_id":0,"name":1,dept:1}})
+
+--------------------
+> db.employees.aggregate({$project:{"_id":0,"name":1,dept:1,totalExp:1}})
+
+--------------------
+db.employees.aggregate({$group:{"_id":"dept","noOfEmployee":{$sum:1},"avgExp:":{$avg:"$totalExp"}}})
+
+--------------
+> db.employees.aggregate([{$group:{"_id":"$dept","last":{$last:"$name"},"first":{$last:"$name"}}}])
+
+----------------
+> db.employees.aggregate([{$group:{"_id":"$dept","last":{$last:"$name"},"first":{$last:"$name"},"minExp":{$min:"$totalExp"}}}])
+
+-------------
+ db.employees.aggregate([{$group:{"_id":"dept","arrPush":{$push:"$age"}}}])
+
+-------------
+db.employees.aggregate([{$group:{"_id":"dept","arrPush":{$push:"$age"},"arrSet":{$addToSet:"age"}}}])
+
+-------------
+> db.employees.aggregate({$project:{name:1,dept:1,number_language:{$size:"$languages"},_id:0}})
+
+-------------
+> db.employees.aggregate([{$match:{dept:"Admin"}},{$project:{name:1,dept:1,number_language:{$size:"$languages"},_id:0}}])
+
+--------------
+> db.employees.aggregate([{$project:{name:1,dept:1,number_language:{$size:"$languages"},_id:0}},{$out:"no_of_lang"}])
+
+-------------
+> db.no_of_lang.find({number_language:{$lte:3}})
+
+---------------
+> db.employees.aggregate([{$match:{"name":"Adma"}},{$unwind:"$languages"}])
+
+---------------
+> db.no_of_lang.find({},{_id:0}).skip(2)
+
+
+
+_______________________
+
+
+---------to add new field with values--
+> db.Sales.updateMany({$or:[{productId:"Pid0023"},{productId:"Pid0231"}]},{$set:{productSize:["small","mid","big"]}})
+
+---
+db.Sales.aggregate({$group:{_id:"productId","maxPrice":{$max:"$salePrice"}}})
+
+---
+db.Sales.aggregate({$group:{_id:"productId","maxPrice":{$max:"$salePrice"}}})
+
+------
+> db.Sales.find({$and:[{"saleQuantity":{$gt:100}},{"saleQuantity":{$lt:165}}]},{_id:0,productName:1,saleDate:1})
+
+--------
+> db.Sales.getIndexes()
+
+*******------excecution states---
+
+---------------
+> db.Sales.createIndex({productId:1})
+-----------
+> db.sales.getIndexes()
+-----------
+> db.Sales.updateMany({productId:"Pid0555"},{$unset:{saleDate:""}})

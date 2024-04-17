@@ -1,0 +1,30 @@
+customers = LOAD 'hdfs://localhost:9000/pig_data/customers.txt' USING PigStorage(',') as (id:int, name:chararray, age:int, address:chararray, salary:int);
+
+orders = LOAD 'hdfs://localhost:9000/pig_data/orders.txt' USING PigStorage(',') as (oid:int, date:chararray, customer_id:int, amount:int);
+
+customer_orders = JOIN customers BY id, orders BY customer_id;
+
+outer_left = JOIN customers BY id LEFT OUTER, orders BY customer_id;
+
+outer_right = JOIN customers BY id RIGHT OUTER, orders BY customer_id;
+
+outer_full = JOIN customers BY id FULL OUTER, orders BY customer_id;
+
+custo = UNION orders, customers;
+
+SPLIT customers into cust1 if age<25, cust2 if age>=25;
+
+split customers into cust3 if salary==2000, cust4 if (salary>2000 and salary<7000);
+
+customers_name_tokenize = foreach customers Generate TOKENIZE(name);
+
+cust = Group customers ALL;
+avgCust = foreach cust GENERATE (customers.id, customers.name,customers.salary), AVG(customers.salary);
+
+min = foreach cust GENERATE (customers.id, customers.name,customers.salary), MIN(customers.salary);
+
+max = foreach cust GENERATE (customers.id, customers.name,customers.salary), MAX(customers.salary);
+
+count = foreach cust GENERATE (customers.id, customers.name,customers.salary), COUNT(customers.salary);
+
+sum = foreach cust GENERATE (customers.id, customers.name,customers.salary), SUM(customers.salary);

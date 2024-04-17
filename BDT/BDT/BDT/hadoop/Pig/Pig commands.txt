@@ -1,0 +1,10 @@
+--to add in pig--
+prod = LOAD 'hdfs://localhost:9000/LJ/Product.txt' USING PigStorage(',') as ( pid:chararray, pname:chararray, qty:int,price:float,company:chararray );
+
+--to remove--
+dump prod;
+
+
+stud = LOAD 'hdfs://localhost:9000/pig_data/student.txt' USING PigStorage(',') as ( rno:int, fname:chararray,lname:chararray,mobno:int,cty:chararray );
+
+dump stud

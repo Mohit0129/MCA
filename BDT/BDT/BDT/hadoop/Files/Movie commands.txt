@@ -1,0 +1,38 @@
+hdfs dfs -mkdir /Movies
+
+hdfs dfs -put -f C:\Movie.csv /movies
+
+movie = LOAD 'hdfs://localhost:9000/Movies/Movie.csv' USING PigStorage(',') as ( id:int, name:chararray, year:int, rating:float, duration:int );
+
+describe movie
+
+illustrate movie
+
+store movie into 'MyMovies';
+
+cat MyMovies;
+
+
+dur = FILTER movie by duration > 7200;
+
+movie_dur = FOREACH movie GENERATE name,duration,(double)(duration/60),(duration/3600);
+
+Z = FILTER movie by name matches 'D.*'; 
+
+dump Z;
+
+movie_35 = FILTER movie BY (float)rating > 3.5;
+
+Year = FILTER movie by year > 2020;
+
+group_year = group movie by year;
+
+distinct_data = DISTINCT movie;
+
+count_by_year = FOREACH grouped_year GENERATE group,COUNT(movie);
+
+asc_movies_by_year = ORDER movie BY year ASC;
+
+desc_movies_by_rating = ORDER movie BY rating DESC;
+
+top_5_movies = LIMIT desc_movies_by_rating 5;

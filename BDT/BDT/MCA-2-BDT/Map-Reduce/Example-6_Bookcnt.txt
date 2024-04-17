@@ -1,0 +1,53 @@
+Create a database "BookStore" with a collection called "Books" containing 
+documents with some or all of the following fields: Category, BookName, Author, 
+quantity, price, pages. 
+
+Perform the following operations on the database:
+a) Insert Records for 5 books.
+-------------------------------
+book1 = {name : "Understanding JAVA", pages : 100} 
+	db.books.save(book1) 
+	book2 = {name : "Understanding JSON", pages : 200} 
+	db.books.save(book2)  
+	book = {name : "Understanding XML", pages : 300}  
+    db.books.save(book)  
+    book = {name : "Understanding Web Services", pages : 400}  
+    db.books.save(book)  
+    book = {name : "Understanding Axis2", pages : 150}  
+    db.books.save(book) 
+	
+	db.books.find()
+	> db.books.find()
+{ "_id" : ObjectId("60d432d8c86c26e730e5b56d"), "name" : "Understanding JAVA", "pages" : 100 }
+{ "_id" : ObjectId("60d432d8c86c26e730e5b56e"), "name" : "Understanding JSON", "pages" : 200 }
+{ "_id" : ObjectId("60d432d8c86c26e730e5b56f"), "name" : "Understanding XML", "pages" : 300 }
+{ "_id" : ObjectId("60d432d8c86c26e730e5b570"), "name" : "Understanding Web Services", "pages" : 400 }
+{ "_id" : ObjectId("60d432d9c86c26e730e5b571"), "name" : "Understanding Axis2", "pages" : 150 }
+-------------------------------
+b) Write Map & Reduce functions to split the books into the following two 
+categories: Bigbooks, Smallbooks. (Books which have more than 300 pages 
+should be in the Big books category. Books which have less than 300 pages 
+should be in the Small books category.)
+---
+ > var map = function() {  
+    var category;  
+    if ( this.pages >= 300 )   
+    category = "Big Books";  
+    else   
+    category = "Small Books";  
+    emit(category, {name: this.name});  
+    };  
+---
+ > var reduce = function(key, values) {  
+    var sum = 0;  
+    values.forEach(function(doc) {  
+    sum += 1;  
+    });  
+    return {books: sum};  
+    };  
+	
+var count  = db.books.mapReduce(map, reduce, {out: "book_results"});  
+db[count.result].find()
+c) Count the number of books in each category
+d) Store the output as follow as documents in a new collection called "Book 
+

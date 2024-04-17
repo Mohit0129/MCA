@@ -1,0 +1,134 @@
+date.txt
+------------
+001,1989/09/26 09:00:00
+002,1980/06/20 10:22:00
+003,1990/12/19 03:11:44 
+------------
+
+date_data = LOAD 'hdfs://localhost:9000/emp/date.txt' USING PigStorage(',')
+   as (id:int,date:chararray);
+
+
+1 ToDate(milliseconds)
+This function returns a date-time object according to the given parameters. The other alternative for this function are ToDate(iosstring), ToDate(userstring, format), ToDate(userstring, format, timezone)
+
+todate_data = foreach date_data generate ToDate(date,'yyyy/MM/dd HH:mm:ss')
+   as (date_time:DateTime >);
+
+---------------------------------
+2	CurrentTime()
+returns the date-time object of the current time.
+currenttime_data = foreach todate_data generate CurrentTime();
+---------------------------------
+3	GetDay(datetime)
+Returns the day of a month from the date-time object.
+getday_data = foreach todate_data generate(date_time), GetDay(date_time);
+---------------------------------
+4	GetHour(datetime)
+Returns the hour of a day from the date-time object.
+gethour_data = foreach todate_data generate (date_time), GetHour(date_time);
+5	GetMilliSecond(datetime)
+Returns the millisecond of a second from the date-time object.
+
+6	GetMinute(datetime)
+Returns the minute of an hour from the date-time object.
+
+7	GetMonth(datetime)
+Returns the month of a year from the date-time object.
+
+8	GetSecond(datetime)
+Returns the second of a minute from the date-time object.
+
+9	GetWeek(datetime)
+Returns the week of a year from the date-time object.
+
+10	GetWeekYear(datetime)
+Returns the week year from the date-time object.
+
+11	GetYear(datetime)
+Returns the year from the date-time object.
+---------------------------------------------------
+
+
+12	AddDuration(datetime, duration)
+Returns the result of a date-time object along with the duration object.
+
+Note − The Duration is represented in ISO 8601 standard. According to ISO 8601 standard P is placed at the beginning, while representing the duration and it is called as duration designator. Likewise,
+
+Y is the year designator. We use this after declaring the year.
+
+Example − P1Y represents 1 year.
+
+M is the month designator. We use this after declaring the month.
+
+Example − P1M represents 1 month.
+
+W is the week designator. We use this after declaring the week.
+
+Example − P1W represents 1 week.
+
+D is the day designator. We use this after declaring the day.
+
+Example − P1D represents 1 day.
+
+T is the time designator. We use this before declaring the time.
+
+Example − PT5H represents 5 hours.
+
+H is the hour designator. We use this after declaring the hour.
+
+Example − PT1H represents 1 hour.
+
+M is the minute designator. We use this after declaring the minute.
+
+Example − PT1M represents 1 minute.
+
+S is the second designator. We use this after declaring the second.
+
+Example − PT1S represents 1 second.
+
+------------------------------------------------------------------------
+date_duration = LOAD 'hdfs://localhost:9000/emp/date.txt' USING PigStorage(',') as (id:int, date:chararray, duration:chararray)
+
+
+Add_duration_data = foreach date_duration generate(date,duration), 
+   AddDuration(ToDate(date,'yyyy/MM/dd HH:mm:ss'), duration);
+
+------------------------------------------------------------------------
+13	SubtractDuration(datetime, duration)
+Subtracts the Duration object from the Date-Time object and returns the result.
+
+
+
+14	DaysBetween(datetime1, datetime2)
+Returns the number of days between the two date-time objects.
+
+doj_dob_data = LOAD 'hdfs://localhost:9000/pig_data/doj_dob.txt' USING PigStorage(',') as (id:int, dob:chararray, doj:chararray);
+
+
+daysbetween_data = foreach doj_dob_data generate DaysBetween(ToDate
+(doj,'dd/MM/yyyy HH:mm:ss'),ToDate(dob,'dd/MM/yyyy HH:mm:ss'));
+
+
+------------------------------------------------------------------------
+
+15	HoursBetween(datetime1, datetime2)
+Returns the number of hours between two date-time objects.
+
+16	MilliSecondsBetween(datetime1, datetime2)
+Returns the number of milliseconds between two date-time objects.
+
+17	MinutesBetween(datetime1, datetime2)
+Returns the number of minutes between two date-time objects.
+
+18	MonthsBetween(datetime1, datetime2)
+Returns the number of months between two date-time objects.
+
+19	SecondsBetween(datetime1, datetime2)
+Returns the number of seconds between two date-time objects.
+
+20	WeeksBetween(datetime1, datetime2)
+Returns the number of weeks between two date-time objects.
+
+21	YearsBetween(datetime1, datetime2)
+Returns the number of years between two date-time objects.
